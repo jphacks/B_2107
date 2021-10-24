@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "651392048422",
+    "project_id": "jphacks-tech-uni-b",
+    "storage_bucket": "jphacks-tech-uni-b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651392048422:android:399528dd07c93e77d575e7",
+        "android_client_info": {
+          "package_name": "com.example.jphacks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "651392048422-2g0f3j56biter9h3k7aieje0c99cjbq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9_rGkVR-Hbx_ju_PkhnUiX3MWEURv7UI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "651392048422-2g0f3j56biter9h3k7aieje0c99cjbq9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "651392048422-02739gedha13k7vmqvpmpu7lulefdga0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.jphacks"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
