@@ -1,17 +1,11 @@
 <template>
   <div>
-  
-    <template v-for="item in dataSetsKey">
+  <template v-for="item in dataSetsKey">
       <label
         :for="`check_${item.index}`"
         :key="item.label"
         :style="`color: ${item.color}; margin: 8px;`"
-        ><input
-          :id="`check_${item.index}`"
-          type="checkbox"
-          v-model="filterItem"
-          :value="item.index"
-        />{{ item.label }}</label
+        >{{ item.label }}</label
       >
     </template>
     <BarChart
@@ -27,7 +21,6 @@
     />
   </div>
 </template>
-
 <script>
 import BarChart from "@/components/BarChart.vue";
 // import firebase from "@/firebase/firebase.js";
@@ -42,15 +35,17 @@ export default {
     return {
       datacollection: {},
       filterItem: [],
-       vote:[],
        votes:[],
     };
     
   },
    created() {
-     this.votes.push(this.$route.params.re)
-     setTimeout(this.fillData(), 3000);
-    this.filterItem = this.datacollection.datasets.map((_s, i) => i);
+     var a=this.$route.params.re.split(',').map(Number)
+     for(let i=0;i<=a.length;i++){
+       this.votes.push(a[i])
+     }
+     this.fillData();
+     this.filterItem = this.datacollection.datasets.map((_s, i) => i);
   },
   computed: {
     filteredDataCollection() {
@@ -80,30 +75,70 @@ export default {
         .filter((s) => s >= 0);
     },
     fillData() {
-      this.datacollection = {
-        labels: ["A案", "B案", "C案", "D案", "E案"],
+    if(this.votes.length>=6){
+          this.datacollection = {
+        labels: [`A案  ${this.votes[0]}票`, `B案  ${this.votes[1]}票`,`C案  ${this.votes[2]}票`, `D案  ${this.votes[3]}票`,`E案  ${this.votes[4]}票`],
         datasets: [
           {
             label: "投票結果",
             backgroundColor: "#4cc36b",
-            dataCategory: "vegetable",
-            data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-            ],
+            data: this.getRandomInt()
           },
         ],
       };
+        }
+        if(this.votes.length==5){
+          this.datacollection = {
+        labels: [`A案  ${this.votes[0]}票`, `B案  ${this.votes[1]}票`,`C案  ${this.votes[2]}票`, `D案  ${this.votes[3]}票`],
+        datasets: [
+          {
+            label: "投票結果",
+            backgroundColor: "#4cc36b",
+            data: this.getRandomInt()
+          },
+        ],
+      };
+        }
+     else if(this.votes.length==4){
+          this.datacollection = {
+        labels: [`A案  ${this.votes[0]}票`, `B案  ${this.votes[1]}票`,`C案  ${this.votes[2]}票`],
+        datasets: [
+          {
+            label: "投票結果",
+            backgroundColor: "#4cc36b",
+            data: this.getRandomInt()
+          },
+        ],
+      };
+        }
+    else if(this.votes.length==3){
+          this.datacollection = {
+        labels: [`A案  ${this.votes[0]}票`, `B案  ${this.votes[1]}票`],
+        datasets: [
+          {
+            label: "投票結果",
+            backgroundColor: "#4cc36b",
+            data: this.getRandomInt()
+          },
+        ],
+      };
+    }
+    else if(this.votes.length==2){
+          this.datacollection = {
+        labels: [`A案  ${this.votes[0]}票`],
+        datasets: [
+          {
+            label: "投票結果",
+            backgroundColor: "#4cc36b",
+            data: this.getRandomInt()
+          },
+        ],
+      };
+        }
     },
     
     getRandomInt() {
-
-    
-      return this.votes[0];
+      return this.votes;
     },
   },
 };
