@@ -134,7 +134,7 @@ import firebase from "@/firebase/firebase.js";
     });
   });
     const enter= db.collection('opinions');
-    const snapshot =await enter.where("room_id","==",this.$route.params.id).where("password","==",this.$route.params.password).orderBy('vote_user', 'desc').limit(5).get();
+    const snapshot =await enter.where("room_id","==",Number(this.$route.params.id)).where("password","==",Number(this.$route.params.password)).orderBy('vote_user', 'desc').limit(5).get();
     snapshot.forEach(doc =>{
       this.vote.push(doc.data(""))
     });
