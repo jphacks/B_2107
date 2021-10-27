@@ -1,43 +1,51 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
 // import UserList from '../views/UserList.vue'
-import ChatBoard from '../views/ChatBoard.vue'
-import Meet from '../views/Meet.vue'
-import Result from '../views/Result.vue'
-Vue.use(VueRouter)
+import ChatBoard from "../views/ChatBoard.vue";
+import Meet from "../views/Meet.vue";
+import Result from "../views/Result.vue";
+import Video from "../views/Video.vue";
+
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
-    props: true
+    props: true,
   },
   {
-    path: '/chat',
-    name: 'ChatBoard',
+    path: "/chat",
+    name: "ChatBoard",
     component: ChatBoard,
-    props: true
+    props: true,
   },
   {
-    path: '/meet/:id/:password',
-    name: 'Meet',
+    path: "/meet/:id/:password",
+    name: "Meet",
     component: Meet,
-    props: true
+    props: true,
   },
   {
-    path: '/meet/:id/:password/:re',
-    name: 'Result',
+    path: "/meet/:id/:password/:re",
+    name: "Result",
     component: Result,
-    props: true
+    props: true,
   },
-]
+  {
+    path: "/video",
+    name: "Video",
+    component: Video,
+    props: true,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
