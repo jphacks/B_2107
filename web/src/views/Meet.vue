@@ -134,7 +134,7 @@ import firebase from "@/firebase/firebase.js";
     });
   });
     const enter= db.collection('opinions');
-    const snapshot = enter.where("room_id","==",62885138).where("password","==",7139).get();
+    const snapshot =await enter.where("room_id","==",Number(this.$route.params.id)).where("password","==",Number(this.$route.params.password)).orderBy('vote_user', 'desc').limit(5).get();
     snapshot.forEach(doc =>{
       this.vote.push(doc.data(""))
     });
@@ -154,7 +154,7 @@ import firebase from "@/firebase/firebase.js";
       vote:[
 
       ],
-      votes:[1
+      votes:[
 
       ]
     }),
@@ -163,7 +163,9 @@ import firebase from "@/firebase/firebase.js";
     },
     methods: {
       result(){
-        this.$router.push({name:"Result", params: {id: this.$route.params.id, password: this.$route.params.password, re : this.votes[0]}}).catch(() => {});
+        var str = this.votes.join(',');
+        this.$router.push({name:"Result", params: {id: this.$route.params.id, password: this.$route.params.password, re : str}}).catch(() => {});
+         window.location.reload();
       }
     }
   }

@@ -4,7 +4,6 @@
       <!-- <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> -->
     </div>
-    <sidebar />
     <router-view/>
   </div>
 </template>
@@ -45,12 +44,10 @@
 </style>
 
 <script>
-import Sidebar from '@/components/layout/Sidebar'
+
 
   export default {
     components: {
-      Sidebar,
-
     },
     data: () => ({
       drawer: null,
