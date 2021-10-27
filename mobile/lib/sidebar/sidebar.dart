@@ -16,34 +16,35 @@ class _SideBarState extends State<SideBar> {
   @override
   final List<String> name = [];
   final List<String> image = [];
-  void getName()  {
+
+  // void getName()  {
+
+
+  //   final userRef = FirebaseFirestore.instance
+  //       .collection('user')
+  //       .where('uid', isEqualTo: uid);
+  //  userRef.get().then(
+  //     (snapshot) {
+  //       snapshot.docs.forEach((doc) {
+  //         name.add(doc.data()["name"]);
+  //       });
+  //       snapshot.docs.forEach((doc) {
+  //         image.add(doc.data()["user_image"]);
+  //       });
+  //     },
+  //   );
+  // }
+
+  // void initState() {
+  //   super.initState();
+  //   getName();
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    @override
     final User user = FirebaseAuth.instance.currentUser;
     final String uid = user.uid.toString();
-    setState(() {
-      final userRef = FirebaseFirestore.instance
-          .collection('user')
-          .where('uid', isEqualTo: uid);
-      userRef.get().then(
-        (snapshot) {
-          snapshot.docs.forEach((doc) {
-            name.add(doc.data()["name"]);
-          });
-          snapshot.docs.forEach((doc) {
-            image.add(doc.data()["user_image"]);
-          });
-        },
-      );
-    });
-  }
-
-  void initState() {
-    super.initState();
-    setState(() {
-      getName();
-    });
-  }
-
-  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
       color: Colors.lightGreen.shade800,
@@ -58,20 +59,40 @@ class _SideBarState extends State<SideBar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 40.0,
-                    backgroundImage: NetworkImage(image[0]),
-                    backgroundColor: Colors.white,
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    name[0],
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
+                  StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('user')
+                          .where('uid', isEqualTo: uid)
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return Column(
+                          children: snapshot.data.docs
+                              .map((DocumentSnapshot document) {
+                            return Container(
+                                child: Column(children: [
+                              CircleAvatar(
+                                radius: 40.0,
+                                backgroundImage: NetworkImage(document.data()['user_image']),
+                                backgroundColor: Colors.white,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                 document.data()['name'],
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ]));
+                          }).toList(),
+                        );
+                      }),
                 ],
               ),
             ),

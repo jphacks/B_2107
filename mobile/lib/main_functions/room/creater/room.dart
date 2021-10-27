@@ -3,26 +3,54 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:jphacks/main_functions/vote/vote.dart';
+import 'dart:async';
 
 class Room extends StatefulWidget {
   @override
   RoomState createState() => RoomState();
-  Room(this.docID, this.name, this.image, this.room_id, this.number,this.check);
+  Room(this.docID, this.name, this.image, this.room_id, this.number, this.check,
+      this.timer);
   final docID;
   final name;
   final image;
   final room_id;
   final number;
   final check;
+  final timer;
 }
 
 class RoomState extends State<Room> {
   @override
   String _agenda = "";
   String _opinion = "";
+  String _time = '';
   final _firestore = FirebaseFirestore.instance;
   @override
+  void dialog() {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("　終了時間になりました"),
+          content: Text("投票を行ってください\n※画面外をタップしてください"),
+        );
+      },
+    );
+  }
+
+  void initState() {
+    super.initState();
+    if (widget.timer == "未設定") {
+    } else {
+      final pos = widget.timer.length - 1;
+      final result = widget.timer.substring(0, pos);
+      Future.delayed(Duration(seconds: int.parse(result) * 6), () {
+        dialog();
+      });
+    }
+  }
 
   //議題を変更する関数
   Future<void> UpdateAgenda(BuildContext context) async {
@@ -120,10 +148,10 @@ class RoomState extends State<Room> {
                     onPressed: () => Navigator.pop(context),
                   ),
                   CupertinoButton(
-                    child: Text("決定"),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      setState(() async {
+                      child: Text("決定"),
+                      onPressed: () async {
+                        Navigator.pop(context);
+
                         var docRef =
                             await _firestore.collection("opinions").add(
                           {
@@ -139,7 +167,7 @@ class RoomState extends State<Room> {
                             "mtg_id": widget.docID,
                             "password": widget.number,
                             "datetime": DateTime.now(),
-                            "vote_user":0,
+                            "vote_user": 0,
                           },
                         );
                         var documentId = docRef.id;
@@ -149,9 +177,7 @@ class RoomState extends State<Room> {
                             .update(
                           {"opinion_docID": documentId},
                         );
-                      });
-                    },
-                  ),
+                      }),
                 ],
               ),
               Container(
@@ -348,12 +374,12 @@ class RoomState extends State<Room> {
                                                       Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  Vote(
-                                                                      widget.docID,
-                                                                      widget.name,
-                                                                      widget.image,
-                                                                      document.data()['uid'])));
+                                                              builder: (context) => Vote(
+                                                                  widget.docID,
+                                                                  widget.name,
+                                                                  widget.image,
+                                                                  document.data()[
+                                                                      'uid'])));
                                                     }),
                                                 FlatButton(
                                                     child: Text("いいえ"),
@@ -442,32 +468,35 @@ class RoomState extends State<Room> {
                                         onPressed: () async {
                                           // データを更新
                                           var count = 1;
-                                          var countgood=count+document.data()["opinion_good"].length;
-                                          if(widget.check==true){
-                                              _firestore
-                                              .collection("opinions")
-                                              .doc(document
-                                                  .data()["opinion_docID"])
-                                              .update(
-                                            {
-                                              "opinion_good":
-                                                  FieldValue.arrayUnion([countgood]),
-                                            },
-                                          );
+                                          var countgood = count +
+                                              document
+                                                  .data()["opinion_good"]
+                                                  .length;
+                                          if (widget.check == true) {
+                                            _firestore
+                                                .collection("opinions")
+                                                .doc(document
+                                                    .data()["opinion_docID"])
+                                                .update(
+                                              {
+                                                "opinion_good":
+                                                    FieldValue.arrayUnion(
+                                                        [countgood]),
+                                              },
+                                            );
+                                          } else {
+                                            _firestore
+                                                .collection("opinions")
+                                                .doc(document
+                                                    .data()["opinion_docID"])
+                                                .update(
+                                              {
+                                                "opinion_good":
+                                                    FieldValue.arrayUnion(
+                                                        [uid]),
+                                              },
+                                            );
                                           }
-                                          else{
-                                              _firestore
-                                              .collection("opinions")
-                                              .doc(document
-                                                  .data()["opinion_docID"])
-                                              .update(
-                                            {
-                                              "opinion_good":
-                                                  FieldValue.arrayUnion([uid]),
-                                            },
-                                          );
-                                          }
-                                        
                                         }),
                                   ),
                                   //いいね数表示
