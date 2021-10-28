@@ -20,25 +20,25 @@ class ResultState extends State<Result> {
 
   _generateData() {
        var barData = [
-        new Ideas("A案", widget.total[0], Color.fromRGBO(255, 110, 0, 1))
+        new Ideas("A案　${widget.total[0]}票", widget.total[0], Color.fromRGBO(255, 110, 0, 1))
     ];
     if (widget.total.length == 2) {
-      barData.add(new Ideas('B案', widget.total[1], Color(0xFFFFFFFF)));
+      barData.add(new Ideas('B案　${widget.total[1]}票', widget.total[1], Color(0xFFFFFFFF)));
     }
     else if(widget.total.length == 3){
-      barData.add(new Ideas('B案', widget.total[1], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('C案', widget.total[2], Color(0xFFFFFFFF)));
+      barData.add(new Ideas('B案　${widget.total[1]}票', widget.total[1], Color(0xFFFFFFFF)));
+      barData.add(new Ideas('C案　${widget.total[2]}票', widget.total[2], Color(0xFFFFFFFF)));
     }
     else if(widget.total.length == 4){
-      barData.add(new Ideas('B案', widget.total[1], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('C案', widget.total[2], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('D案', widget.total[3], Color(0xFFFFFFFF)));
+      barData.add(new Ideas('B案　${widget.total[1]}票', widget.total[1], Color(0xFFFFFFFF)));
+      barData.add(new Ideas('C案　${widget.total[2]}票', widget.total[2], Color(0xFFFFFFFF)));
+      barData.add(new Ideas('D案　${widget.total[3]}票', widget.total[3], Color(0xFFFFFFFF)));
     }
     else if(widget.total.length == 5){
-      barData.add(new Ideas('B案', widget.total[1], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('C案', widget.total[2], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('D案', widget.total[3], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('E案', widget.total[4], Color(0xFFFFFFFF)));
+      barData.add(new Ideas('B案　${widget.total[1]}票', widget.total[1], Color(0xFFFFFFFF)));
+      barData.add(new Ideas('C案　${widget.total[2]}票', widget.total[2], Color(0xFFFFFFFF)));
+      barData.add(new Ideas('D案　${widget.total[3]}票', widget.total[3], Color(0xFFFFFFFF)));
+      barData.add(new Ideas('E案　${widget.total[4]}票', widget.total[4], Color(0xFFFFFFFF)));
     }
  
 
@@ -246,7 +246,7 @@ class ResultState extends State<Result> {
                 width: 350,
                 height: 350,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(134, 74, 16, 1),
+                  color: Color.fromRGBO(111,172,22, 1),
                   borderRadius: BorderRadius.circular(60),
                 ),
                 alignment: Alignment.center,
@@ -295,6 +295,7 @@ class ResultState extends State<Result> {
                         ],
                       ),
                       child: Card(
+                        color: Colors.green,
                         clipBehavior: Clip.antiAlias,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25)),
@@ -304,7 +305,7 @@ class ResultState extends State<Result> {
                                 document.data()['rank'] +"　"+
                                     document.data()['opinion'],
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 20)),
+                                    color: Colors.white, fontSize: 20)),
                           ),
                         ]),
                       ));

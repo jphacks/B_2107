@@ -1,4 +1,7 @@
 <template>
+<div>
+<div id="capture">
+  
  <div style="display: flex;">
   <div class="fix">
   <template v-for="item in dataSetsKey">
@@ -46,11 +49,22 @@
     </template>
   </v-simple-table>
   </div>
+   </div>
 
+     <v-btn class="picbtn" x-large color="#4169e1" dark id="save-btn"
+    @click="captureImage">
+      結果を保存する
+    </v-btn>
+    <v-btn class="picbtn" x-large color="#008000" dark @click="finish">
+      会議を終了する
+    </v-btn>
+</div>
 </template>
 <script>
 import BarChart from "@/components/BarChart.vue";
 import firebase from "@/firebase/firebase.js";
+import html2canvas from 'html2canvas';
+
 export default {
   name: "SandBox",
   components: {
@@ -74,7 +88,7 @@ export default {
        this.votes.push(a[i])
      }
    const db = firebase.firestore();
-   db.collection("opinions").where("room_id","==",Number(this.$route.params.id)).where("password","==",Number(this.$route.params.password)).orderBy('vote_user', 'desc').limit(5)
+   db.collection("opinions").where("room_id","==",Number(this.$route.params.id)).where("password","==",Number(this.$route.params.password)).orderBy('vote_user', 'desc').limit(8)
   .onSnapshot(snapshot => {
     snapshot.docChanges().forEach(change => {
       if (change.type === "added") {
@@ -175,12 +189,27 @@ export default {
       };
         }
     },
-    
     getRandomInt() {
       return this.votes;
     },
-  },
-};
+ captureImage () {
+      html2canvas(document.querySelector('#capture'),{
+        }).
+        then((canvas) => {
+
+        const link = document.createElement('a')
+        link.href = canvas.toDataURL()
+        link.download = `vivistudio_result.png`
+        link.click()
+      })
+    },
+ finish(){
+    this.$router.push({name:"Hone"}).catch(() => {});
+    window.location.reload();
+ }
+
+  }
+}
 </script>
 <style scoped>
 .graph{
@@ -198,8 +227,12 @@ margin-top:10px
 .table{
 margin-left: 10px;
 margin-right: 10px;
+margin-bottom:80px;
 width: 700px;
 height: 400px;
+}
+.picbtn{
+  margin-top:100px;
 }
 
 </style>
