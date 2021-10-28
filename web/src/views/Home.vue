@@ -71,7 +71,7 @@ margin-right: auto;
       validate () {
         this.$refs.form.validate()
         //画面遷移
-        this.$router.push({name:"Meet", params: {id: this.id, password: this.password}}).catch(() => {});
+        this.$router.push({name:"Select", params: {id: this.id, password: this.password}}).catch(() => {});
       
       },
       reset () {
