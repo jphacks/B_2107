@@ -58,8 +58,8 @@ class ResultState extends State<Result> {
   Future setTitle() async {
     setState(() {
       final _firestore = FirebaseFirestore.instance;
-
-      _firestore.collection("opinions").doc(widget.docIDs[0]).update(
+      if(widget.docIDs.length == 5){
+   _firestore.collection("opinions").doc(widget.docIDs[0]).update(
         {
           "rank": "A案",
         },
@@ -84,6 +84,65 @@ class ResultState extends State<Result> {
           "rank": "E案",
         },
       );
+      }
+    else if(widget.docIDs.length == 4){
+       _firestore.collection("opinions").doc(widget.docIDs[0]).update(
+        {
+          "rank": "A案",
+        },
+      );
+      _firestore.collection("opinions").doc(widget.docIDs[1]).update(
+        {
+          "rank": "B案",
+        },
+      );
+      _firestore.collection("opinions").doc(widget.docIDs[2]).update(
+        {
+          "rank": "C案",
+        },
+      );
+      _firestore.collection("opinions").doc(widget.docIDs[3]).update(
+        {
+          "rank": "D案",
+        },
+      );
+    }
+     else if(widget.docIDs.length == 3){
+       _firestore.collection("opinions").doc(widget.docIDs[0]).update(
+        {
+          "rank": "A案",
+        },
+      );
+      _firestore.collection("opinions").doc(widget.docIDs[1]).update(
+        {
+          "rank": "B案",
+        },
+      );
+      _firestore.collection("opinions").doc(widget.docIDs[2]).update(
+        {
+          "rank": "C案",
+        },
+      );
+    }
+    else if(widget.docIDs.length == 2){
+       _firestore.collection("opinions").doc(widget.docIDs[0]).update(
+        {
+          "rank": "A案",
+        },
+      );
+      _firestore.collection("opinions").doc(widget.docIDs[1]).update(
+        {
+          "rank": "B案",
+        },
+      );
+    }
+        else if(widget.docIDs.length == 1){
+       _firestore.collection("opinions").doc(widget.docIDs[0]).update(
+        {
+          "rank": "A案",
+        },
+      );
+    }
     });
   }
 

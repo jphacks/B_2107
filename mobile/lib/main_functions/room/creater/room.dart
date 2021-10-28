@@ -3,12 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:jphacks/main_functions/vote/vote.dart';
+import 'dart:async';
 
 class Room extends StatefulWidget {
   @override
   RoomState createState() => RoomState();
   Room(this.docID, this.name, this.image, this.room_id, this.number, this.check);
+
   final docID;
   final name;
   final image;
@@ -21,8 +24,32 @@ class RoomState extends State<Room> {
   @override
   String _agenda = "";
   String _opinion = "";
+  String _time = '';
   final _firestore = FirebaseFirestore.instance;
   @override
+  void dialog() {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("　終了時間になりました"),
+          content: Text("投票を行ってください\n※画面外をタップしてください"),
+        );
+      },
+    );
+  }
+
+  void initState() {
+    super.initState();
+    // if (widget.timer == "未設定") {
+    // } else {
+    //   final pos = widget.timer.length - 1;
+    //   final result = widget.timer.substring(0, pos);
+    //   Future.delayed(Duration(seconds: int.parse(result) * 6), () {
+    //     dialog();
+    //   });
+    // }
+  }
 
   //議題を変更する関数
   Future<void> UpdateAgenda(BuildContext context) async {
@@ -139,6 +166,7 @@ class RoomState extends State<Room> {
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
+
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CupertinoButton(
@@ -373,7 +401,15 @@ class RoomState extends State<Room> {
                                                 FlatButton(
                                                     child: Text("投票を始める"),
                                                     onPressed: () {
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context) => Vote(widget.docID, widget.name, widget.image, document.data()['uid'])));
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => Vote(
+                                                                  widget.docID,
+                                                                  widget.name,
+                                                                  widget.image,
+                                                                  document.data()[
+                                                                      'uid'])));
                                                     }),
                                                 FlatButton(
                                                     child: Text("いいえ"),
@@ -451,6 +487,7 @@ class RoomState extends State<Room> {
                                         onPressed: () async {
                                           // データを更新
                                           var count = 1;
+
                                           var countgood = count + document.data()["opinion_good"].length;
                                           if (widget.check == true) {
                                             _firestore.collection("opinions").doc(document.data()["opinion_docID"]).update(
@@ -462,6 +499,7 @@ class RoomState extends State<Room> {
                                             _firestore.collection("opinions").doc(document.data()["opinion_docID"]).update(
                                               {
                                                 "opinion_good": FieldValue.arrayUnion([uid]),
+
                                               },
                                             );
                                           }
@@ -480,3 +518,4 @@ class RoomState extends State<Room> {
         ])));
   }
 }
+

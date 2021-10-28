@@ -1,19 +1,14 @@
 <template>
-  <div>
-  
-    <template v-for="item in dataSetsKey">
+ <div style="display: flex;">
+  <div class="fix">
+  <template v-for="item in dataSetsKey">
       <label
         :for="`check_${item.index}`"
         :key="item.label"
         :style="`color: ${item.color}; margin: 8px;`"
-        ><input
-          :id="`check_${item.index}`"
-          type="checkbox"
-          v-model="filterItem"
-          :value="item.index"
-        />{{ item.label }}</label
-      >
+        >{{ item.label }}</label>
     </template>
+    <div class="graph">
     <BarChart
       :chart-data="filteredDataCollection"
       :options="{
@@ -25,12 +20,37 @@
         },
       }"
     />
+    </div>
+     </div>
+    <v-simple-table class="table">
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <th class="text-left">
+            意見
+          </th>
+          <th class="text-left">
+            票数
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(data,index) in vote"
+            :key="index"
+        >
+          <td>{{data.opinion}}</td>
+          <td>{{ data.vote_user }}</td>
+        </tr>
+      </tbody>
+    </template>
+  </v-simple-table>
   </div>
-</template>
 
+</template>
 <script>
 import BarChart from "@/components/BarChart.vue";
-// import firebase from "@/firebase/firebase.js";
+import firebase from "@/firebase/firebase.js";
 export default {
   name: "SandBox",
   components: {
@@ -38,19 +58,33 @@ export default {
   },
  
   data() {
-   
+  //  ``
     return {
       datacollection: {},
       filterItem: [],
-       vote:[],
        votes:[],
+       fill:[],
+       vote:[],
     };
     
   },
-   created() {
-     this.votes.push(this.$route.params.re)
-     setTimeout(this.fillData(), 3000);
-    this.filterItem = this.datacollection.datasets.map((_s, i) => i);
+  async created() {
+      var a=this.$route.params.re.split(',').map(Number)
+     for(let i=0;i<=a.length;i++){
+       this.votes.push(a[i])
+     }
+   const db = firebase.firestore();
+   db.collection("opinions").where("room_id","==",Number(this.$route.params.id)).where("password","==",Number(this.$route.params.password)).orderBy('vote_user', 'desc').limit(5)
+  .onSnapshot(snapshot => {
+    snapshot.docChanges().forEach(change => {
+      if (change.type === "added") {
+       this.vote.push(change.doc.data())
+      }
+    });
+  });
+
+     this.fillData();
+     this.filterItem = this.datacollection.datasets.map((_s, i) => i);
   },
   computed: {
     filteredDataCollection() {
@@ -80,31 +114,92 @@ export default {
         .filter((s) => s >= 0);
     },
     fillData() {
-      this.datacollection = {
-        labels: ["A案", "B案", "C案", "D案", "E案"],
+
+        this.datacollection = {
+        labels: [`1位  ${this.votes[0]}票`, `2位  ${this.votes[1]}票`,`3位  ${this.votes[2]}票`, `4位  ${this.votes[3]}票`,`5位  ${this.votes[4]}票`],
         datasets: [
           {
             label: "投票結果",
             backgroundColor: "#4cc36b",
-            dataCategory: "vegetable",
-            data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-            ],
+            data:this.votes
+          },
+        ],
+      }
+        
+        if(this.votes.length==5){
+          this.datacollection = {
+        labels: [`1位  ${this.votes[0]}票`, `2位  ${this.votes[1]}票`,`3位  ${this.votes[2]}票`, `4位  ${this.votes[3]}票`],
+        datasets: [
+          {
+            label: "投票結果",
+            backgroundColor: "#4cc36b",
+            data: this.getRandomInt()
           },
         ],
       };
+        }
+     else if(this.votes.length==4){
+          this.datacollection = {
+        labels: [`1位  ${this.votes[0]}票`, `2位  ${this.votes[1]}票`,`3位  ${this.votes[2]}票`],
+        datasets: [
+          {
+            label: "投票結果",
+            backgroundColor: "#4cc36b",
+            data: this.getRandomInt()
+          },
+        ],
+      };
+        }
+    else if(this.votes.length==3){
+          this.datacollection = {
+        labels: [`1位  ${this.votes[0]}票`, `2位  ${this.votes[1]}票`],
+        datasets: [
+          {
+            label: "投票結果",
+            backgroundColor: "#4cc36b",
+            data: this.getRandomInt()
+          },
+        ],
+      };
+    }
+    else if(this.votes.length==2){
+          this.datacollection = {
+        labels: [`1位  ${this.votes[0]}票`],
+        datasets: [
+          {
+            label: "投票結果",
+            backgroundColor: "#4cc36b",
+            data: this.getRandomInt()
+          },
+        ],
+      };
+        }
     },
     
     getRandomInt() {
-
-    
-      return this.votes[0];
+      return this.votes;
     },
   },
 };
 </script>
+<style scoped>
+.graph{
+margin-left: 10px;
+width: 680px;
+height: 400px;
+margin-top:10px
+}
+.fix{
+margin-left: 10px;
+width: 700px;
+height: 400px;
+margin-top:10px
+}
+.table{
+margin-left: 10px;
+margin-right: 10px;
+width: 700px;
+height: 400px;
+}
+
+</style>
