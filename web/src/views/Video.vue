@@ -15,6 +15,7 @@
         <v-btn depressed @click="join">参加</v-btn>
         <v-btn depressed @click="leave">退出</v-btn>
         <v-btn depressed @click="shareScreen">画面共有</v-btn>
+         <v-btn depressed @click="tomeet">議題と意見を表示する</v-btn>
       </div>
     </div>
     <div>
@@ -95,6 +96,9 @@ export default {
     shareScreen: function() {
       const stream = navigator.mediaDevices.getDisplayMedia({ video: true });
       const call = this.peer.call(stream);
+    },
+    tomeet(){
+       this.$router.push({name:"Meet", params: {id: this.$route.params.id, password: this.$route.params.password}}).catch(() => {});
     },
     timeShow: function(message) {
       this.timeMessage = message;

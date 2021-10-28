@@ -20,7 +20,7 @@
           >
        <v-card
     class="mx-auto agenda"
-    color="green"
+    color="green lighten-2"
     dark
     max-width="800"
   >
