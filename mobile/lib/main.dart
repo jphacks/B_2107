@@ -18,7 +18,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Firebase.initializeApp();
-  await dotenv.load(fileName: ".env.development");
   runApp(MyApp());
 }
 
@@ -30,8 +29,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primaryTextTheme:
-                TextTheme(headline1: TextStyle(color: Colors.red)),
+            primaryTextTheme: TextTheme(headline1: TextStyle(color: Colors.red)),
             primaryIconTheme: IconThemeData(color: Colors.red),
           ),
           home: _LoginCheck(),
@@ -87,29 +85,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final auth = FirebaseAuth.instance;
   Widget build(BuildContext context) {
-    var routes = [Home(), Setting()];
+    var routes = [
+      Stack(children: [SideBar(), Home()]),
+      Stack(children: [SideBar(), Setting()]),
+    ];
     return Scaffold(
-      body: (_selectedIndex == 0)
-          ? Stack(
-              children: [
-                SideBar(),
-                Home(),
-              ],
-            )
-          : Stack(
-              children: [
-                SideBar(),
-                Setting(),
-              ],
-            ),
+      body: routes[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.green[800],
+        selectedLabelStyle: TextStyle(color: Colors.white),
         items: [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.article,
-              color: Colors.brown[200],
-              size: 30,
+              color: Colors.white,
+              size: 40,
             ),
             label: 'HOME',
             backgroundColor: Colors.white,
@@ -117,8 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.account_circle,
-              color: Colors.brown[200],
-              size: 30,
+              color: Colors.white,
+              size: 40,
             ),
             label: '設定',
           ),
