@@ -10,7 +10,8 @@ import 'dart:async';
 class Room extends StatefulWidget {
   @override
   RoomState createState() => RoomState();
-  Room(this.docID, this.name, this.image, this.room_id, this.number, this.check);
+  Room(this.docID, this.name, this.image, this.room_id, this.number, this.check,
+      this.timer);
 
   final docID;
   final name;
@@ -18,6 +19,7 @@ class Room extends StatefulWidget {
   final room_id;
   final number;
   final check;
+  final timer;
 }
 
 class RoomState extends State<Room> {
@@ -32,8 +34,15 @@ class RoomState extends State<Room> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: Text("　終了時間になりました"),
-          content: Text("投票を行ってください\n※画面外をタップしてください"),
+          title: Text("終了時間になりました"),
+          content: Text("投票を行ってください"),
+           actions: <Widget>[
+        // ボタン領
+        FlatButton(
+          child: Text("OK"),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ],
         );
       },
     );
@@ -41,14 +50,14 @@ class RoomState extends State<Room> {
 
   void initState() {
     super.initState();
-    // if (widget.timer == "未設定") {
-    // } else {
-    //   final pos = widget.timer.length - 1;
-    //   final result = widget.timer.substring(0, pos);
-    //   Future.delayed(Duration(seconds: int.parse(result) * 6), () {
-    //     dialog();
-    //   });
-    // }
+    if (widget.timer == "未設定") {
+    } else {
+      final pos = widget.timer.length - 1;
+      final result = widget.timer.substring(0, pos);
+      Future.delayed(Duration(seconds: int.parse(result) * 60), () {
+        dialog();
+      });
+    }
   }
 
   //議題を変更する関数
@@ -90,7 +99,8 @@ class RoomState extends State<Room> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+                margin:
+                    EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
                 child: TextFormField(
                   minLines: 6,
                   maxLines: 6,
@@ -157,7 +167,8 @@ class RoomState extends State<Room> {
                     padding: const EdgeInsets.all(8.0),
                     child: CupertinoButton(
                       color: Colors.green,
-                      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
                       borderRadius: BorderRadius.circular(8.0),
                       child: Text(
                         "戻る",
@@ -166,12 +177,12 @@ class RoomState extends State<Room> {
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CupertinoButton(
                         color: Colors.green,
-                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 30.0),
                         borderRadius: BorderRadius.circular(8.0),
                         child: Text(
                           "コメントを追加",
@@ -180,12 +191,14 @@ class RoomState extends State<Room> {
                         onPressed: () async {
                           Navigator.pop(context);
 
-                          var docRef = await _firestore.collection("opinions").add(
+                          var docRef =
+                              await _firestore.collection("opinions").add(
                             {
                               "opinion": _opinion,
                               "uid": uid,
                               "room_id": widget.room_id,
-                              "opinion_good": "", //create.dartから持ってくる(documentIDをidとする)
+                              "opinion_good":
+                                  "", //create.dartから持ってくる(documentIDをidとする)
                               "vote": "",
                               "rank": "NOT",
                               "user_name": widget.name,
@@ -197,7 +210,10 @@ class RoomState extends State<Room> {
                             },
                           );
                           var documentId = docRef.id;
-                          _firestore.collection("opinions").doc(documentId).update(
+                          _firestore
+                              .collection("opinions")
+                              .doc(documentId)
+                              .update(
                             {"opinion_docID": documentId},
                           );
                         }),
@@ -205,7 +221,8 @@ class RoomState extends State<Room> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+                margin:
+                    EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
                 child: TextFormField(
                   minLines: 6,
                   maxLines: 6,
@@ -256,12 +273,15 @@ class RoomState extends State<Room> {
       builder: (_) {
         return AlertDialog(
           title: Text("Roomの情報"),
-          content: Text("Room_id: ${widget.room_id}\nPassWord: ${widget.number}"),
+          content:
+              Text("Room_id: ${widget.room_id}\nPassWord: ${widget.number}"),
           actions: [
             FlatButton(
                 child: Text("招待する"),
                 onPressed: () async {
-                  final data = ClipboardData(text: "Room_id: ${widget.room_id}\nPassWord: ${widget.number}");
+                  final data = ClipboardData(
+                      text:
+                          "Room_id: ${widget.room_id}\nPassWord: ${widget.number}");
                   await Clipboard.setData(data);
                 }),
             FlatButton(
@@ -303,8 +323,13 @@ class RoomState extends State<Room> {
             child: Column(children: [
           //更新されたらすぐ反映する処理
           StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection("mtg").where("room_id", isEqualTo: widget.room_id).where("password", isEqualTo: widget.number).snapshots(),
-            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            stream: FirebaseFirestore.instance
+                .collection("mtg")
+                .where("room_id", isEqualTo: widget.room_id)
+                .where("password", isEqualTo: widget.number)
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               }
@@ -325,7 +350,8 @@ class RoomState extends State<Room> {
                       child: Card(
                         color: Colors.green,
                         clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25)),
                         child: Column(
                           children: [
                             //議題追加ボタン
@@ -337,9 +363,14 @@ class RoomState extends State<Room> {
                                 title: Container(
                                   margin: EdgeInsets.only(left: 80),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0),
                                     child: Text(
-                                      "参加人数　" + document.data()['users'].length.toString(),
+                                      "参加人数　" +
+                                          document
+                                              .data()['users']
+                                              .length
+                                              .toString(),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 19,
@@ -348,7 +379,8 @@ class RoomState extends State<Room> {
                                     ),
                                   ),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.green[200], width: 3.0),
+                                    border: Border.all(
+                                        color: Colors.green[200], width: 3.0),
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.green[700],
                                   ),
@@ -369,7 +401,8 @@ class RoomState extends State<Room> {
                               width: double.infinity,
                               child: Text(
                                 document.data()['agenda'],
-                                style: TextStyle(color: Colors.white, fontSize: 23),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 23),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -434,8 +467,13 @@ class RoomState extends State<Room> {
           //意見を表示させる
           Flexible(
             child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection("opinions").where("mtg_id", isEqualTo: widget.docID).orderBy('datetime', descending: true).snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              stream: FirebaseFirestore.instance
+                  .collection("opinions")
+                  .where("mtg_id", isEqualTo: widget.docID)
+                  .orderBy('datetime', descending: true)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
@@ -455,7 +493,8 @@ class RoomState extends State<Room> {
                         ),
                         child: Card(
                             clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25)),
                             child: Column(
                               children: [
                                 Container(
@@ -463,18 +502,23 @@ class RoomState extends State<Room> {
                                   child: ListTile(
                                     leading: CircleAvatar(
                                       radius: 26.0,
-                                      backgroundImage: NetworkImage(document.data()['user_image']),
+                                      backgroundImage: NetworkImage(
+                                          document.data()['user_image']),
                                       backgroundColor: Colors.white,
                                     ),
-                                    title: Text(document.data()['user_name'], style: TextStyle(color: Colors.black, fontSize: 17)),
+                                    title: Text(document.data()['user_name'],
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 17)),
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(top: 15, bottom: 20, left: 90, right: 15),
+                                  margin: EdgeInsets.only(
+                                      top: 15, bottom: 20, left: 90, right: 15),
                                   width: double.infinity,
                                   child: Text(
                                     document.data()['opinion'],
-                                    style: TextStyle(color: Colors.black, fontSize: 19),
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 19),
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
@@ -488,25 +532,40 @@ class RoomState extends State<Room> {
                                           // データを更新
                                           var count = 1;
 
-                                          var countgood = count + document.data()["opinion_good"].length;
+                                          var countgood = count +
+                                              document
+                                                  .data()["opinion_good"]
+                                                  .length;
                                           if (widget.check == true) {
-                                            _firestore.collection("opinions").doc(document.data()["opinion_docID"]).update(
+                                            _firestore
+                                                .collection("opinions")
+                                                .doc(document
+                                                    .data()["opinion_docID"])
+                                                .update(
                                               {
-                                                "opinion_good": FieldValue.arrayUnion([countgood]),
+                                                "opinion_good":
+                                                    FieldValue.arrayUnion(
+                                                        [countgood]),
                                               },
                                             );
                                           } else {
-                                            _firestore.collection("opinions").doc(document.data()["opinion_docID"]).update(
+                                            _firestore
+                                                .collection("opinions")
+                                                .doc(document
+                                                    .data()["opinion_docID"])
+                                                .update(
                                               {
-                                                "opinion_good": FieldValue.arrayUnion([uid]),
-
+                                                "opinion_good":
+                                                    FieldValue.arrayUnion(
+                                                        [uid]),
                                               },
                                             );
                                           }
                                         }),
                                   ),
                                   //いいね数表示
-                                  Text((document.data()["opinion_good"].length).toString()),
+                                  Text((document.data()["opinion_good"].length)
+                                      .toString()),
                                 ])
                               ],
                             )));
@@ -518,4 +577,3 @@ class RoomState extends State<Room> {
         ])));
   }
 }
-
