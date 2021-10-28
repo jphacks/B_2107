@@ -2,26 +2,22 @@
   <div id="Video" class="container wrapper">
     <div class="room">
       <div class="screen">
-        <video id="js-local-stream" autoplay muted playsinline></video>
+        <div>
+          <video id="js-local-stream" autoplay muted playsinline></video>
+        </div>
         <div class="remote-streams" id="js-remote-streams"></div>
       </div>
-
-      <div class="controller">
-        <v-text-field
-          v-model="roomId"
-          placeholder="Room ID"
-          required
-        ></v-text-field>
-        <v-btn depressed @click="join">参加</v-btn>
-        <v-btn depressed @click="leave">退出</v-btn>
-        <v-btn depressed @click="shareScreen">画面共有</v-btn>
-         <v-btn depressed @click="tomeet">議題と意見を表示する</v-btn>
-      </div>
     </div>
-    <div>
-      <p>
+    <div class="controller">
+      <v-btn @click="join" elevation="2" raised large>参加</v-btn>
+      <v-btn @click="leave" elevation="2" large raised>退出</v-btn>
+      <v-btn @click="shareScreen" elevation="2" large raised>画面共有</v-btn>
+      <v-btn @click="tomeet" elevation="2" large raised
+        >議題と意見を表示する</v-btn
+      >
+      <div class="timeMessage">
         {{ timeMessage }}
-      </p>
+      </div>
     </div>
   </div>
 </template>
@@ -60,12 +56,13 @@ export default {
 
     // Peer作成
     this.peer = new Peer({
-      key: process.env.VUE_APP_SKYWAY_KEY,
+      key: VUE_APP_SKYWAY_KEY,
       debug: 3,
     });
   },
   methods: {
     join: function() {
+      this.roomId = this.$route.params.id;
       this.room = this.peer.joinRoom(this.roomId, {
         mode: "sfu",
         stream: this.localStream,
@@ -92,13 +89,30 @@ export default {
     },
     leave: function() {
       this.room.close();
+      this.$router
+        .push({
+          name: "Select",
+          params: {
+            id: this.$route.params.id,
+            password: this.$route.params.password,
+          },
+        })
+        .catch(() => {});
     },
     shareScreen: function() {
       const stream = navigator.mediaDevices.getDisplayMedia({ video: true });
       const call = this.peer.call(stream);
     },
-    tomeet(){
-       this.$router.push({name:"Meet", params: {id: this.$route.params.id, password: this.$route.params.password}}).catch(() => {});
+    tomeet() {
+      this.$router
+        .push({
+          name: "Meet",
+          params: {
+            id: this.$route.params.id,
+            password: this.$route.params.password,
+          },
+        })
+        .catch(() => {});
     },
     timeShow: function(message) {
       this.timeMessage = message;
@@ -115,21 +129,34 @@ export default {
   max-width: 100%;
   max-height: 100%;
 }
-
-.container {
-  margin-left: auto;
-  margin-right: auto;
-  width: 980px;
+.room {
+  position: relative;
 }
 
+.room > div {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
 .screen {
   max-width: 100%;
   display: grid;
-  gap: 8px;
+  gap: 10px;
   grid-template-columns: repeat(2, 1fr);
 }
 
+.controller {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 button {
   margin-right: 10px;
+  margin-top: 15px;
+}
+
+.timeMessage {
+  margin-top: 10px;
 }
 </style>
