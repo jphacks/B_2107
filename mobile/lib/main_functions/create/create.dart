@@ -3,10 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jphacks/animation/fade-animation.dart';
+import 'package:jphacks/main_functions/room/creater/room.dart';
+import 'package:meta/meta.dart';
+import 'package:jphacks/animation/fade-animation.dart';
 import 'package:jphacks/login/model/create_model.dart';
 import 'package:jphacks/login/model/timepicker.dart';
 import 'package:jphacks/main_functions/room/creater/room.dart';
 import 'package:provider/provider.dart';
+
 
 class CreateRoom extends StatefulWidget {
   @override
@@ -31,6 +36,103 @@ class CreateRoomState extends State<CreateRoom> {
     String questions_genre;
     String _select="未設定";
 
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        child: Column(children: [
+          Container(
+            padding: const EdgeInsets.all(30.0),
+            margin: const EdgeInsets.only(top: 200),
+            child: FadeAnimation(
+              2,
+              Container(
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  // border: Border.all(color: Colors.black54),
+                  borderRadius: BorderRadius.circular(25.0),
+                  color: Colors.green,
+                ),
+                child: CheckboxListTile(
+                  title: Text("無限いいね"),
+                  secondary: Icon(
+                    Icons.thumb_up_alt,
+                    color: _checkedInfinity ? Colors.green : Colors.black,
+                  ),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: _checkedInfinity,
+                  onChanged: (bool newValue) {
+                    print(newValue);
+                    setState(() {
+                      _checkedInfinity = newValue;
+                    });
+                  },
+                  activeColor: Colors.green,
+                  checkColor: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(20),
+            child: FadeAnimation(
+              2.33,
+              Container(
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  // border: Border.all(color: Colors.black54),
+                  borderRadius: BorderRadius.circular(25.0),
+                  color: Colors.green,
+                ),
+                child: CheckboxListTile(
+                  title: Text("匿名投票"),
+                  secondary: Icon(
+                    Icons.no_accounts,
+                    color: _checkedAnonymous ? Colors.black : Colors.white,
+                  ),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: _checkedAnonymous,
+                  onChanged: (bool newValue) {
+                    setState(() {
+                      _checkedAnonymous = newValue;
+                    });
+                  },
+                  activeColor: Colors.black,
+                  checkColor: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          //ルーム作成ボタン
+          Container(
+            margin: const EdgeInsets.only(top: 80.0),
+            child: FadeAnimation(
+              2.55,
+              ElevatedButton(
+                child: const Text("ルームを作成する"),
+                style: ElevatedButton.styleFrom(
+                  textStyle: const TextStyle(fontSize: 22.5),
+                  fixedSize: const Size(275, 75),
+                  primary: Colors.green,
+                  onPrimary: Colors.white,
+                  elevation: 50,
+                  //ボタン角丸
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  side: BorderSide(
+                    color: Colors.white, //枠線!
+                    width: 1.25, //枠線！
+                  ),
+                ),
+                onPressed: () async {
+                  //id
+                  var rands = new Random();
+                  var nexts = rands.nextDouble() * 100000000;
     void _onSelectedItemChanged(int index) {
       setState(() {
         _select = timer[index];
@@ -292,7 +394,16 @@ class CreateRoomState extends State<CreateRoom> {
                 ]),
               ),
             ),
-          ]);
-        })));
-  }
-}
+          ]
+
+          );
+            }
+            )
+
+        ),
+      );
+                }
+            ))
+    )
+        ]
+        )));}}
