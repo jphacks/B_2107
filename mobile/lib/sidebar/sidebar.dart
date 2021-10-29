@@ -116,13 +116,6 @@ class _SideBarState extends State<SideBar> {
                   },
                 ),
                 SizedBox(height: 20),
-                NewRow(
-                  text: 'Test',
-                  icon: Icons.bookmark,
-                  sizeFont: 19,
-                  onTap: () {},
-                ),
-                SizedBox(height: 20),
               ],
             ),
             GestureDetector(
