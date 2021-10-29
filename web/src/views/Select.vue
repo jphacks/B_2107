@@ -1,5 +1,7 @@
 <template>
+
   <div class="my-2">
+
     <v-btn x-large color="#008000" dark @click="sky">
       Skyで会議を立ち上げる
     </v-btn>

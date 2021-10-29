@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Header />
+    
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
         v-model="id"
@@ -36,16 +36,8 @@
   color: black;
 }
 </style>
-<style>
-header {
-  margin-top: 70px;
-  margin-bottom: 70px;
-}
-</style>
 <script>
-import Header from "../components/layout/Header.vue";
 export default {
-  components: { Header },
   data: () => ({
     valid: true,
     id: "",
@@ -77,8 +69,6 @@ export default {
       this.$refs.form.resetValidation();
     },
   },
-  conponents: {
-    Header,
-  },
+
 };
 </script>

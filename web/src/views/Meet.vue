@@ -2,17 +2,22 @@
   <v-app id="inspire">
     <v-app-bar
       app
-      shrink-on-scroll
+      color="#00aa6e"
     >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+      color="white"
+      ></v-app-bar-nav-icon>
       <v-toolbar-title class="title"></v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-spacer><img src="@/assets/vivi.png"
+      class="background"
+      ></v-spacer>
 
       <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
+        <v-icon
+        color="white"
+        >mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
-
     <v-main>
       <v-col
             v-for="(data,index) in agenda"
@@ -20,7 +25,7 @@
           >
        <v-card
     class="mx-auto agenda"
-    color="green lighten-2"
+    color="#258c6d"
     dark
     max-width="800"
   >
