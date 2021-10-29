@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -19,28 +20,35 @@ class ResultState extends State<Result> {
   List<charts.Series<Ideas, String>> _seriesBarData;
 
   _generateData() {
-       var barData = [
-        new Ideas("A案", widget.total[0], Color.fromRGBO(255, 110, 0, 1))
+    var barData = [
+      new Ideas("A案　${widget.total[0]}票", widget.total[0],
+          Color.fromRGBO(255, 110, 0, 1))
     ];
     if (widget.total.length == 2) {
-      barData.add(new Ideas('B案', widget.total[1], Color(0xFFFFFFFF)));
+      barData.add(new Ideas(
+          'B案　${widget.total[1]}票', widget.total[1], Color(0xFFFFFFFF)));
+    } else if (widget.total.length == 3) {
+      barData.add(new Ideas(
+          'B案　${widget.total[1]}票', widget.total[1], Color(0xFFFFFFFF)));
+      barData.add(new Ideas(
+          'C案　${widget.total[2]}票', widget.total[2], Color(0xFFFFFFFF)));
+    } else if (widget.total.length == 4) {
+      barData.add(new Ideas(
+          'B案　${widget.total[1]}票', widget.total[1], Color(0xFFFFFFFF)));
+      barData.add(new Ideas(
+          'C案　${widget.total[2]}票', widget.total[2], Color(0xFFFFFFFF)));
+      barData.add(new Ideas(
+          'D案　${widget.total[3]}票', widget.total[3], Color(0xFFFFFFFF)));
+    } else if (widget.total.length == 5) {
+      barData.add(new Ideas(
+          'B案　${widget.total[1]}票', widget.total[1], Color(0xFFFFFFFF)));
+      barData.add(new Ideas(
+          'C案　${widget.total[2]}票', widget.total[2], Color(0xFFFFFFFF)));
+      barData.add(new Ideas(
+          'D案　${widget.total[3]}票', widget.total[3], Color(0xFFFFFFFF)));
+      barData.add(new Ideas(
+          'E案　${widget.total[4]}票', widget.total[4], Color(0xFFFFFFFF)));
     }
-    else if(widget.total.length == 3){
-      barData.add(new Ideas('B案', widget.total[1], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('C案', widget.total[2], Color(0xFFFFFFFF)));
-    }
-    else if(widget.total.length == 4){
-      barData.add(new Ideas('B案', widget.total[1], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('C案', widget.total[2], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('D案', widget.total[3], Color(0xFFFFFFFF)));
-    }
-    else if(widget.total.length == 5){
-      barData.add(new Ideas('B案', widget.total[1], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('C案', widget.total[2], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('D案', widget.total[3], Color(0xFFFFFFFF)));
-      barData.add(new Ideas('E案', widget.total[4], Color(0xFFFFFFFF)));
-    }
- 
 
     _seriesBarData.add(
       charts.Series(
@@ -58,91 +66,87 @@ class ResultState extends State<Result> {
   Future setTitle() async {
     setState(() {
       final _firestore = FirebaseFirestore.instance;
-      if(widget.docIDs.length == 5){
-   _firestore.collection("opinions").doc(widget.docIDs[0]).update(
-        {
-          "rank": "A案",
-        },
-      );
-      _firestore.collection("opinions").doc(widget.docIDs[1]).update(
-        {
-          "rank": "B案",
-        },
-      );
-      _firestore.collection("opinions").doc(widget.docIDs[2]).update(
-        {
-          "rank": "C案",
-        },
-      );
-      _firestore.collection("opinions").doc(widget.docIDs[3]).update(
-        {
-          "rank": "D案",
-        },
-      );
-      _firestore.collection("opinions").doc(widget.docIDs[4]).update(
-        {
-          "rank": "E案",
-        },
-      );
+      if (widget.docIDs.length == 5) {
+        _firestore.collection("opinions").doc(widget.docIDs[0]).update(
+          {
+            "rank": "A案",
+          },
+        );
+        _firestore.collection("opinions").doc(widget.docIDs[1]).update(
+          {
+            "rank": "B案",
+          },
+        );
+        _firestore.collection("opinions").doc(widget.docIDs[2]).update(
+          {
+            "rank": "C案",
+          },
+        );
+        _firestore.collection("opinions").doc(widget.docIDs[3]).update(
+          {
+            "rank": "D案",
+          },
+        );
+        _firestore.collection("opinions").doc(widget.docIDs[4]).update(
+          {
+            "rank": "E案",
+          },
+        );
+      } else if (widget.docIDs.length == 4) {
+        _firestore.collection("opinions").doc(widget.docIDs[0]).update(
+          {
+            "rank": "A案",
+          },
+        );
+        _firestore.collection("opinions").doc(widget.docIDs[1]).update(
+          {
+            "rank": "B案",
+          },
+        );
+        _firestore.collection("opinions").doc(widget.docIDs[2]).update(
+          {
+            "rank": "C案",
+          },
+        );
+        _firestore.collection("opinions").doc(widget.docIDs[3]).update(
+          {
+            "rank": "D案",
+          },
+        );
+      } else if (widget.docIDs.length == 3) {
+        _firestore.collection("opinions").doc(widget.docIDs[0]).update(
+          {
+            "rank": "A案",
+          },
+        );
+        _firestore.collection("opinions").doc(widget.docIDs[1]).update(
+          {
+            "rank": "B案",
+          },
+        );
+        _firestore.collection("opinions").doc(widget.docIDs[2]).update(
+          {
+            "rank": "C案",
+          },
+        );
+      } else if (widget.docIDs.length == 2) {
+        _firestore.collection("opinions").doc(widget.docIDs[0]).update(
+          {
+            "rank": "A案",
+          },
+        );
+        _firestore.collection("opinions").doc(widget.docIDs[1]).update(
+          {
+            "rank": "B案",
+          },
+        );
+      } else if (widget.docIDs.length == 1) {
+        _firestore.collection("opinions").doc(widget.docIDs[0]).update(
+          {
+            "rank": "A案",
+          },
+        );
       }
-    else if(widget.docIDs.length == 4){
-       _firestore.collection("opinions").doc(widget.docIDs[0]).update(
-        {
-          "rank": "A案",
-        },
-      );
-      _firestore.collection("opinions").doc(widget.docIDs[1]).update(
-        {
-          "rank": "B案",
-        },
-      );
-      _firestore.collection("opinions").doc(widget.docIDs[2]).update(
-        {
-          "rank": "C案",
-        },
-      );
-      _firestore.collection("opinions").doc(widget.docIDs[3]).update(
-        {
-          "rank": "D案",
-        },
-      );
-    }
-     else if(widget.docIDs.length == 3){
-       _firestore.collection("opinions").doc(widget.docIDs[0]).update(
-        {
-          "rank": "A案",
-        },
-      );
-      _firestore.collection("opinions").doc(widget.docIDs[1]).update(
-        {
-          "rank": "B案",
-        },
-      );
-      _firestore.collection("opinions").doc(widget.docIDs[2]).update(
-        {
-          "rank": "C案",
-        },
-      );
-    }
-    else if(widget.docIDs.length == 2){
-       _firestore.collection("opinions").doc(widget.docIDs[0]).update(
-        {
-          "rank": "A案",
-        },
-      );
-      _firestore.collection("opinions").doc(widget.docIDs[1]).update(
-        {
-          "rank": "B案",
-        },
-      );
-    }
-        else if(widget.docIDs.length == 1){
-       _firestore.collection("opinions").doc(widget.docIDs[0]).update(
-        {
-          "rank": "A案",
-        },
-      );
-    }
     });
   }
 
@@ -158,6 +162,10 @@ class ResultState extends State<Result> {
 
   Widget build(BuildContext context) {
     final _firestore = FirebaseFirestore.instance;
+    final User user = FirebaseAuth.instance.currentUser;
+    final String uid = user.uid.toString();
+    final List<String> joins = [];
+    final List<int> joinbest = [];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -220,6 +228,45 @@ class ResultState extends State<Result> {
                                       .delete();
                                 }
                               });
+                              final user = FirebaseFirestore.instance
+                                  .collection('user')
+                                  .where('uid', isEqualTo: uid);
+                              user.get().then((snapshot) {
+                                final List<int> joincount = [];
+                                snapshot.docs.forEach((doc) {
+                                  joincount.add(doc.data()["join"]);
+                                  joins.add(doc.data()["documentID"]);
+                                  joinbest.add(doc.data()["best"]);
+                                });
+                                _firestore
+                                    .collection("user")
+                                    .doc(joins[0])
+                                    .update(
+                                  {
+                                    "join": 1 + joincount[0],
+                                  },
+                                );
+                              });
+                              final best = FirebaseFirestore.instance
+                                  .collection('opinions')
+                                  .where('opinion_docID',
+                                      isEqualTo: widget.docIDs[0]);
+                              user.get().then((snapshot) {
+                                final List<String> uids = [];
+                                snapshot.docs.forEach((doc) {
+                                  uids.add(doc.data()["uid"]);
+                                });
+                                if (uid == uids[0]) {
+                                  _firestore
+                                      .collection("user")
+                                      .doc(joins[0])
+                                      .update(
+                                    {
+                                      "best": 1 + joinbest[0],
+                                    },
+                                  );
+                                }
+                              });
                               Navigator.popUntil(context,
                                   (Route<dynamic> route) => route.isFirst);
                             }),
@@ -246,7 +293,7 @@ class ResultState extends State<Result> {
                 width: 350,
                 height: 350,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(134, 74, 16, 1),
+                  color: Color.fromRGBO(111, 172, 22, 1),
                   borderRadius: BorderRadius.circular(60),
                 ),
                 alignment: Alignment.center,
@@ -272,9 +319,9 @@ class ResultState extends State<Result> {
             stream: FirebaseFirestore.instance
                 .collection("opinions")
                 .where("mtg_id", isEqualTo: widget.mtg_id)
-                .where("rank",whereIn: ["A案", "B案", "C案", "D案", "E案"])
-                .orderBy('vote_user', descending: true).
-                snapshots(),
+                .where("rank", whereIn: ["A案", "B案", "C案", "D案", "E案"])
+                .orderBy('vote_user', descending: true)
+                .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -295,16 +342,18 @@ class ResultState extends State<Result> {
                         ],
                       ),
                       child: Card(
+                        color: Colors.green,
                         clipBehavior: Clip.antiAlias,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25)),
                         child: Column(children: [
                           ListTile(
                             title: Text(
-                                document.data()['rank'] +"　"+
+                                document.data()['rank'] +
+                                    "　" +
                                     document.data()['opinion'],
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 20)),
+                                    color: Colors.white, fontSize: 20)),
                           ),
                         ]),
                       ));

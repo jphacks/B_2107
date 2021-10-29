@@ -12,6 +12,9 @@ class NewRow extends StatelessWidget {
     this.sizeFont,
     this.text,
     this.onTap,
+    MaterialColor color,
+    TextStyle style,
+    Text child,
   });
 
   @override
@@ -20,9 +23,10 @@ class NewRow extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Icon(icon, color: Colors.white),
+          Icon(icon, color: Colors.green[800]),
           SizedBox(width: 20),
-          Text(text, style: TextStyle(color: Colors.white, fontSize: sizeFont)),
+          Text(text,
+              style: TextStyle(color: Colors.green[800], fontSize: sizeFont)),
         ],
       ),
     );

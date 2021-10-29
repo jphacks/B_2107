@@ -18,6 +18,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Firebase.initializeApp();
+
+  // await dotenv.load(fileName: ".env.development");
   runApp(MyApp());
 }
 
@@ -29,7 +31,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primaryTextTheme: TextTheme(headline1: TextStyle(color: Colors.red)),
+            primaryTextTheme:
+                TextTheme(headline1: TextStyle(color: Colors.red)),
             primaryIconTheme: IconThemeData(color: Colors.red),
           ),
           home: _LoginCheck(),
@@ -92,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: routes[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.green[800],
+        backgroundColor: Colors.green[300],
         selectedLabelStyle: TextStyle(color: Colors.white),
         items: [
           BottomNavigationBarItem(

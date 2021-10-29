@@ -54,6 +54,7 @@ class _Login extends State<Login> {
                     EdgeInsets.only(top: 200, bottom: 30, left: 30, right: 30),
                 child: Image(
                   image: AssetImage('lib/images/Logo_name_2.png'),
+                  color: Color.fromRGBO(255, 255, 255, 1),
                 ),
               ),
             ),
@@ -148,6 +149,8 @@ class _Login extends State<Login> {
                         "uid": uid,
                         "user_image":
                             "https://firebasestorage.googleapis.com/v0/b/summerhackathon2021-23986.appspot.com/o/user_icon%2Fdefault.png?alt=media&token=2e1a0e9f-41eb-41f8-8c2d-40467c5d6277",
+                        "join":0,
+                        "best":0,
                       },
                     );
                     var documentId = docRef.id;

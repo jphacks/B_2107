@@ -19,7 +19,6 @@ class _SideBarState extends State<SideBar> {
 
   // void getName()  {
 
-
   //   final userRef = FirebaseFirestore.instance
   //       .collection('user')
   //       .where('uid', isEqualTo: uid);
@@ -47,7 +46,7 @@ class _SideBarState extends State<SideBar> {
     final String uid = user.uid.toString();
     Size size = MediaQuery.of(context).size;
     return Container(
-      color: Colors.lightGreen.shade800,
+      color: Colors.green[50],
       child: Padding(
         padding: EdgeInsets.only(top: 50, left: 40, bottom: 70),
         child: Column(
@@ -77,14 +76,15 @@ class _SideBarState extends State<SideBar> {
                                 child: Column(children: [
                               CircleAvatar(
                                 radius: 40.0,
-                                backgroundImage: NetworkImage(document.data()['user_image']),
-                                backgroundColor: Colors.white,
+                                backgroundImage:
+                                    NetworkImage(document.data()['user_image']),
+                                //backgroundColor: Colors.green,
                               ),
                               SizedBox(height: 10),
                               Text(
-                                 document.data()['name'],
+                                document.data()['name'],
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.green[800],
                                   fontSize: 30,
                                   fontWeight: FontWeight.w800,
                                 ),
@@ -135,13 +135,13 @@ class _SideBarState extends State<SideBar> {
                 children: [
                   Icon(
                     Icons.cancel,
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.green[800].withOpacity(0.5),
                   ),
                   SizedBox(width: 10),
                   Text(
                     'Log out',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.green[800],
                       fontSize: 22,
                     ),
                   ),
