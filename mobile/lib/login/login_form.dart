@@ -54,6 +54,7 @@ class _Login extends State<Login> {
                     EdgeInsets.only(top: 200, bottom: 30, left: 30, right: 30),
                 child: Image(
                   image: AssetImage('lib/images/Logo_name_2.png'),
+                  color: Color.fromRGBO(255, 255, 255, 1),
                 ),
               ),
             ),
