@@ -37,6 +37,7 @@ dependencies:
   get_it: ^4.0.1
   flutter_launcher_icons:
   simple_animations: ^4.0.1
+  
   # charts_flutter:
 
   # The following adds the Cupertino Icons font to your application.
@@ -44,6 +45,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl: ^0.16.1
   image_picker:
+  path_provider:
   flushbar: ^1.10.4
   charts_flutter:
     git:
