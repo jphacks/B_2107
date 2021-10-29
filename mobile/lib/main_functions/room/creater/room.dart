@@ -10,8 +10,7 @@ import 'dart:async';
 class Room extends StatefulWidget {
   @override
   RoomState createState() => RoomState();
-  Room(this.docID, this.name, this.image, this.room_id, this.number, this.check,
-      this.timer);
+  Room(this.docID, this.name, this.image, this.room_id, this.number, this.check, this.timer);
 
   final docID;
   final name;
@@ -36,13 +35,13 @@ class RoomState extends State<Room> {
         return AlertDialog(
           title: Text("終了時間になりました"),
           content: Text("投票を行ってください"),
-           actions: <Widget>[
-        // ボタン領
-        FlatButton(
-          child: Text("OK"),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ],
+          actions: <Widget>[
+            // ボタン領
+            FlatButton(
+              child: Text("OK"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
         );
       },
     );
@@ -63,44 +62,58 @@ class RoomState extends State<Room> {
   //議題を変更する関数
   Future<void> UpdateAgenda(BuildContext context) async {
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      backgroundColor: Colors.green[50],
       context: context,
       builder: (BuildContext context) {
         return Container(
-          color: Colors.green[100],
           height: MediaQuery.of(context).size.height / 2,
           child: Column(
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  CupertinoButton(
-                    child: Text(
-                      "戻る",
-                      style: TextStyle(color: Colors.green),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: CupertinoButton(
+                        color: Colors.green,
+                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Text(
+                          "戻る",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
                     ),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  CupertinoButton(
-                    child: Text(
-                      "議題を変更",
-                      style: TextStyle(color: Colors.green),
+                    CupertinoButton(
+                      color: Colors.green,
+                      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Text(
+                        "議題を変更",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        setState(() {
+                          _firestore.collection("mtg").doc(widget.docID).update(
+                            {
+                              "agenda": _agenda,
+                            },
+                          );
+                        });
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      setState(() {
-                        _firestore.collection("mtg").doc(widget.docID).update(
-                          {
-                            "agenda": _agenda,
-                          },
-                        );
-                      });
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
               Container(
-                margin:
-                    EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+                margin: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
                 child: TextFormField(
                   minLines: 6,
                   maxLines: 6,
@@ -121,7 +134,7 @@ class RoomState extends State<Room> {
                         width: 2.0,
                       ),
                     ),
-                    fillColor: Colors.grey[300],
+                    fillColor: Colors.grey[100],
                     filled: true,
                     hintText: '議題',
                     contentPadding: EdgeInsets.all(16.0),
@@ -130,7 +143,7 @@ class RoomState extends State<Room> {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black38,
+                      color: Colors.green[900],
                       blurRadius: 25,
                       offset: const Offset(0, 3),
                     ),
@@ -149,40 +162,37 @@ class RoomState extends State<Room> {
     final User user = FirebaseAuth.instance.currentUser;
     final String uid = user.uid.toString();
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      backgroundColor: Colors.green[50].withOpacity(0.9),
       context: context,
       builder: (BuildContext context) {
         return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40.0),
-            border: Border.all(color: Colors.white),
-            color: Colors.green[100],
-          ),
           height: MediaQuery.of(context).size.height / 2,
           child: Column(
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CupertinoButton(
-                      color: Colors.green,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Text(
-                        "戻る",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CupertinoButton(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: CupertinoButton(
                         color: Colors.green,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 30.0),
+                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Text(
+                          "戻る",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ),
+                    CupertinoButton(
+                        color: Colors.green,
+                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
                         borderRadius: BorderRadius.circular(8.0),
                         child: Text(
                           "コメントを追加",
@@ -191,14 +201,12 @@ class RoomState extends State<Room> {
                         onPressed: () async {
                           Navigator.pop(context);
 
-                          var docRef =
-                              await _firestore.collection("opinions").add(
+                          var docRef = await _firestore.collection("opinions").add(
                             {
                               "opinion": _opinion,
                               "uid": uid,
                               "room_id": widget.room_id,
-                              "opinion_good":
-                                  "", //create.dartから持ってくる(documentIDをidとする)
+                              "opinion_good": "", //create.dartから持ってくる(documentIDをidとする)
                               "vote": "",
                               "rank": "NOT",
                               "user_name": widget.name,
@@ -210,19 +218,15 @@ class RoomState extends State<Room> {
                             },
                           );
                           var documentId = docRef.id;
-                          _firestore
-                              .collection("opinions")
-                              .doc(documentId)
-                              .update(
+                          _firestore.collection("opinions").doc(documentId).update(
                             {"opinion_docID": documentId},
                           );
                         }),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Container(
-                margin:
-                    EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+                margin: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
                 child: TextFormField(
                   minLines: 6,
                   maxLines: 6,
@@ -243,7 +247,7 @@ class RoomState extends State<Room> {
                         width: 2.0,
                       ),
                     ),
-                    fillColor: Colors.grey[300],
+                    fillColor: Colors.grey[100],
                     filled: true,
                     hintText: '意見を記入',
                     contentPadding: EdgeInsets.all(16.0),
@@ -273,19 +277,24 @@ class RoomState extends State<Room> {
       builder: (_) {
         return AlertDialog(
           title: Text("Roomの情報"),
-          content:
-              Text("Room_id: ${widget.room_id}\nPassWord: ${widget.number}"),
+          content: Text("Room_id: ${widget.room_id}\nPassWord: ${widget.number}"),
           actions: [
-            FlatButton(
-                child: Text("招待する"),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
+                  onPrimary: Colors.white,
+                ),
+                child: Text("クリップボードにコピー"),
                 onPressed: () async {
-                  final data = ClipboardData(
-                      text:
-                          "Room_id: ${widget.room_id}\nPassWord: ${widget.number}");
+                  final data = ClipboardData(text: "Room_id: ${widget.room_id}\nPassWord: ${widget.number}");
                   await Clipboard.setData(data);
                 }),
-            FlatButton(
-                child: Text("確認"),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
+                  onPrimary: Colors.white,
+                ),
+                child: Text("戻る"),
                 onPressed: () {
                   Navigator.pop(context);
                 }),
@@ -309,7 +318,7 @@ class RoomState extends State<Room> {
                   initAct(context);
                 },
                 child: Text(
-                  '招待する',
+                  '招待',
                   style: TextStyle(
                     color: Colors.green,
                     fontSize: 20,
@@ -323,13 +332,8 @@ class RoomState extends State<Room> {
             child: Column(children: [
           //更新されたらすぐ反映する処理
           StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection("mtg")
-                .where("room_id", isEqualTo: widget.room_id)
-                .where("password", isEqualTo: widget.number)
-                .snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            stream: FirebaseFirestore.instance.collection("mtg").where("room_id", isEqualTo: widget.room_id).where("password", isEqualTo: widget.number).snapshots(),
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               }
@@ -348,10 +352,9 @@ class RoomState extends State<Room> {
                       ),
                       //議題を表示する画面
                       child: Card(
-                        color: Colors.green,
+                        color: Colors.green[300],
                         clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                         child: Column(
                           children: [
                             //議題追加ボタン
@@ -363,14 +366,9 @@ class RoomState extends State<Room> {
                                 title: Container(
                                   margin: EdgeInsets.only(left: 80),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4.0),
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0),
                                     child: Text(
-                                      "参加人数　" +
-                                          document
-                                              .data()['users']
-                                              .length
-                                              .toString(),
+                                      "参加人数　" + document.data()['users'].length.toString(),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 19,
@@ -379,8 +377,7 @@ class RoomState extends State<Room> {
                                     ),
                                   ),
                                   decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.green[200], width: 3.0),
+                                    border: Border.all(color: Colors.green[200], width: 3.0),
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.green[700],
                                   ),
@@ -401,8 +398,7 @@ class RoomState extends State<Room> {
                               width: double.infinity,
                               child: Text(
                                 document.data()['agenda'],
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 23),
+                                style: TextStyle(color: Colors.white, fontSize: 23),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -428,23 +424,24 @@ class RoomState extends State<Room> {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title: Text('確認'),
+                                              // title: Text('確認'),
+                                              backgroundColor: Colors.green[50],
                                               content: Text('投票を始めますか？'),
                                               actions: <Widget>[
-                                                FlatButton(
+                                                ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      primary: Colors.green,
+                                                      onPrimary: Colors.white,
+                                                    ),
                                                     child: Text("投票を始める"),
                                                     onPressed: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => Vote(
-                                                                  widget.docID,
-                                                                  widget.name,
-                                                                  widget.image,
-                                                                  document.data()[
-                                                                      'uid'])));
+                                                      Navigator.push(context, MaterialPageRoute(builder: (context) => Vote(widget.docID, widget.name, widget.image, document.data()['uid'])));
                                                     }),
-                                                FlatButton(
+                                                ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      primary: Colors.green,
+                                                      onPrimary: Colors.white,
+                                                    ),
                                                     child: Text("いいえ"),
                                                     onPressed: () {
                                                       Navigator.pop(context);
@@ -467,13 +464,8 @@ class RoomState extends State<Room> {
           //意見を表示させる
           Flexible(
             child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("opinions")
-                  .where("mtg_id", isEqualTo: widget.docID)
-                  .orderBy('datetime', descending: true)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
+              stream: FirebaseFirestore.instance.collection("opinions").where("mtg_id", isEqualTo: widget.docID).orderBy('datetime', descending: true).snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
@@ -493,32 +485,27 @@ class RoomState extends State<Room> {
                         ),
                         child: Card(
                             clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25)),
+                            color: Colors.green[400],
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                             child: Column(
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(top: 10),
                                   child: ListTile(
                                     leading: CircleAvatar(
-                                      radius: 26.0,
-                                      backgroundImage: NetworkImage(
-                                          document.data()['user_image']),
-                                      backgroundColor: Colors.white,
+                                      radius: 22.0,
+                                      backgroundImage: NetworkImage(document.data()['user_image']),
+                                      backgroundColor: Colors.green[100],
                                     ),
-                                    title: Text(document.data()['user_name'],
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 17)),
+                                    title: Text(document.data()['user_name'], style: TextStyle(color: Colors.black, fontSize: 17)),
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(
-                                      top: 15, bottom: 20, left: 90, right: 15),
+                                  margin: EdgeInsets.only(top: 5, bottom: 5, left: 90, right: 15),
                                   width: double.infinity,
                                   child: Text(
                                     document.data()['opinion'],
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 19),
+                                    style: TextStyle(color: Colors.black, fontSize: 19),
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
@@ -527,45 +514,29 @@ class RoomState extends State<Room> {
                                     margin: EdgeInsets.only(left: 200),
                                     child: IconButton(
                                         icon: const Icon(Icons.favorite_border),
-                                        color: Colors.red,
+                                        color: Colors.redAccent,
                                         onPressed: () async {
                                           // データを更新
                                           var count = 1;
 
-                                          var countgood = count +
-                                              document
-                                                  .data()["opinion_good"]
-                                                  .length;
+                                          var countgood = count + document.data()["opinion_good"].length;
                                           if (widget.check == true) {
-                                            _firestore
-                                                .collection("opinions")
-                                                .doc(document
-                                                    .data()["opinion_docID"])
-                                                .update(
+                                            _firestore.collection("opinions").doc(document.data()["opinion_docID"]).update(
                                               {
-                                                "opinion_good":
-                                                    FieldValue.arrayUnion(
-                                                        [countgood]),
+                                                "opinion_good": FieldValue.arrayUnion([countgood]),
                                               },
                                             );
                                           } else {
-                                            _firestore
-                                                .collection("opinions")
-                                                .doc(document
-                                                    .data()["opinion_docID"])
-                                                .update(
+                                            _firestore.collection("opinions").doc(document.data()["opinion_docID"]).update(
                                               {
-                                                "opinion_good":
-                                                    FieldValue.arrayUnion(
-                                                        [uid]),
+                                                "opinion_good": FieldValue.arrayUnion([uid]),
                                               },
                                             );
                                           }
                                         }),
                                   ),
                                   //いいね数表示
-                                  Text((document.data()["opinion_good"].length)
-                                      .toString()),
+                                  Text((document.data()["opinion_good"].length).toString()),
                                 ])
                               ],
                             )));
