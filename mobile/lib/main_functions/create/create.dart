@@ -95,52 +95,100 @@ class CreateRoomState extends State<CreateRoom> {
         resizeToAvoidBottomInset: false,
         body: Container(
             child: Column(children: [
-          Container(
-            padding: const EdgeInsets.all(30.0),
-            margin: const EdgeInsets.only(top: 200),
-            child: FadeAnimation(
-              2,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              //head画像
               Container(
-                padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  // border: Border.all(color: Colors.black54),
-                  borderRadius: BorderRadius.circular(25.0),
-                  color: Colors.green,
-                ),
-                child: CheckboxListTile(
-                  title: Text("無限いいね"),
-                  secondary: Icon(
-                    Icons.thumb_up_alt,
-                    color: _checkedInfinity ? Colors.green : Colors.black,
+                margin: const EdgeInsets.only(top: 100),
+                width: 100,
+                height: 100,
+                child: Image.asset("lib/images/Logo_head.png"),
+              ),
+              //name画像
+              Container(
+                margin: const EdgeInsets.only(top: 100),
+                width: 200,
+                height: 150,
+                child: Image.asset("lib/images/Logo_name.png"),
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12.0),
+                margin: const EdgeInsets.only(top: 20, right: 18, left: 18),
+                child: FadeAnimation(
+                  2,
+                  Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.5),
+                          blurRadius: 25,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(25.0),
+                      color: Colors.green,
+                    ),
+                    child: CheckboxListTile(
+                      title: Text(
+                        "無限いいね",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                      secondary: Icon(
+                        Icons.thumb_up_alt,
+                        color: _checkedInfinity ? Colors.black : Colors.white,
+                      ),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: _checkedInfinity,
+                      onChanged: (bool newValue) {
+                        print(newValue);
+                        setState(() {
+                          _checkedInfinity = newValue;
+                        });
+                      },
+                      activeColor: Colors.black,
+                      checkColor: Colors.white,
+                    ),
                   ),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  value: _checkedInfinity,
-                  onChanged: (bool newValue) {
-                    print(newValue);
-                    setState(() {
-                      _checkedInfinity = newValue;
-                    });
-                  },
-                  activeColor: Colors.green,
-                  checkColor: Colors.white,
                 ),
               ),
-            ),
+            ],
           ),
           Container(
             padding: const EdgeInsets.all(10.0),
-            margin: const EdgeInsets.all(20),
+            margin: const EdgeInsets.only(right: 20.5, left: 20.5),
             child: FadeAnimation(
               2.33,
               Container(
                 padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  // border: Border.all(color: Colors.black54),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      blurRadius: 25,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                   borderRadius: BorderRadius.circular(25.0),
                   color: Colors.green,
                 ),
                 child: CheckboxListTile(
-                  title: Text("匿名投票"),
+                  title: Text(
+                    "匿名投票",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
                   secondary: Icon(
                     Icons.no_accounts,
                     color: _checkedAnonymous ? Colors.black : Colors.white,
@@ -160,20 +208,32 @@ class CreateRoomState extends State<CreateRoom> {
           ),
           Container(
             padding: const EdgeInsets.all(10.0),
-            margin: const EdgeInsets.all(20),
+            margin: const EdgeInsets.only(right: 21.5, left: 21.5),
             child: FadeAnimation(
-              2.33,
+              2.50,
               Container(
                 padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  // border: Border.all(color: Colors.black54),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      blurRadius: 25,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                   borderRadius: BorderRadius.circular(25.0),
                   color: Colors.green,
                 ),
                 child: CheckboxListTile(
-                  title: Text("時間設定"),
+                  title: Text(
+                    "時間設定",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
                   secondary: Icon(
-                    Icons.no_accounts,
+                    Icons.access_alarm_sharp,
                     color: _timer ? Colors.black : Colors.white,
                   ),
                   controlAffinity: ListTileControlAffinity.leading,
@@ -194,9 +254,9 @@ class CreateRoomState extends State<CreateRoom> {
           ),
           //ルーム作成ボタン
           Container(
-              margin: const EdgeInsets.only(top: 80.0),
+              margin: const EdgeInsets.only(top: 50.0),
               child: FadeAnimation(
-                2.55,
+                2.60,
                 ElevatedButton(
                   child: const Text("ルームを作成する"),
                   style: ElevatedButton.styleFrom(
@@ -210,10 +270,6 @@ class CreateRoomState extends State<CreateRoom> {
                       borderRadius: BorderRadius.all(
                         Radius.circular(20),
                       ),
-                    ),
-                    side: BorderSide(
-                      color: Colors.white, //枠線!
-                      width: 1.25, //枠線！
                     ),
                   ),
                   onPressed: () async {
