@@ -1,30 +1,65 @@
 <template>
   <div class="home">
-    <Header />
-    <v-form ref="form" v-model="valid" lazy-validation>
-      <v-text-field
-        v-model="id"
-        :rules="idRules"
-        label="Room-id"
-        required
-      ></v-text-field>
+    <div class="logo">
+      <img class="logoHead" src="../assets/img/Logo_head.png" />
+      <img class="logoName" src="../assets/img/Logo_name.png" />
+    </div>
 
-      <v-text-field
-        v-model="password"
-        :rules="passwordRules"
-        label="Room-Password"
-        required
-      ></v-text-field>
-      <v-btn depressed :disabled="!valid" class="mr-4" @click="validate">
-        ルームに参加する
-      </v-btn>
-      <v-btn depressed class="mr-4" @click="reset">
-        リセット
-      </v-btn>
-    </v-form>
+    <div>
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-text-field
+          v-model="id"
+          :rules="idRules"
+          label="Room-id"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="password"
+          :rules="passwordRules"
+          label="Room-Password"
+          required
+        ></v-text-field>
+        <v-btn
+          depressed
+          :disabled="!valid"
+          class="mr-4"
+          large
+          outlined
+          color="#000"
+          @click="validate"
+        >
+          ルームに参加する
+        </v-btn>
+        <v-btn
+          depressed
+          class="mr-4"
+          @click="reset"
+          large
+          outlined
+          color="#000"
+        >
+          リセット
+        </v-btn>
+      </v-form>
+    </div>
   </div>
 </template>
 <style scoped>
+.home {
+  display: grid;
+}
+
+.logo {
+  max-width: 100%;
+  margin-top: 90px;
+  margin-bottom: 70px;
+}
+.logo img {
+  width: 220px;
+  height: auto;
+}
+
 .v-form {
   max-width: 60%;
   height: auto;
@@ -36,16 +71,8 @@
   color: black;
 }
 </style>
-<style>
-header {
-  margin-top: 70px;
-  margin-bottom: 70px;
-}
-</style>
 <script>
-import Header from "../components/layout/Header.vue";
 export default {
-  components: { Header },
   data: () => ({
     valid: true,
     id: "",
@@ -76,9 +103,6 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-  },
-  conponents: {
-    Header,
   },
 };
 </script>
