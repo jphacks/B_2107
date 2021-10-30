@@ -24,14 +24,14 @@ Web会議において、このような感情を抱くことが多いのでは�
 <br>
 Web会議での不安要素を解決するための特徴が組み込まれているアプリです。
 <br>
-#### 特徴1.
-<img src="![IMG_2632](https://user-images.githubusercontent.com/75286616/139519772-6da8a722-f73b-451a-9c46-cb17a8c10d19.PNG)" width="">
+#### 特長1.
+#### スマートフォンから自分の意見を投稿！Webアプリを画面共有すればみんなの意見をリアルタイムで共有可能に
+<!-- <img src="![IMG_2632](https://user-images.githubusercontent.com/75286616/139519772-6da8a722-f73b-451a-9c46-cb17a8c10d19.PNG)" width="">
 
 
 #### ![![IMG_2629](https://user-images.githubusercontent.com/75286616/139519770-bbbbc29f-a0d6-485e-a1d5-e7cd964ddbac.PNG)
 I![IMG_2629](https://user-images.githubusercontent.com/75286616/139519765-eb5a4579-f97c-4f0f-b663-c95c34525937.PNG)
-MG_2629](https://user-images.githubusercontent.com/75286616/139519756-712d5a1c-c1af-4b83-90d6-3562727c83fa.PNG)
-スマートフォンから自分の意見を投稿！Webアプリを画面共有すればみんなの意見をリアルタイムで共有可能に
+MG_2629](https://user-images.githubusercontent.com/75286616/139519756-712d5a1c-c1af-4b83-90d6-3562727c83fa.PNG) -->
 
 #### 特長2.
 #### 匿名機能、いいね機能、タイマー機能が選択可能！他人の意見をより尊重することができる仕組みに
@@ -46,7 +46,7 @@ MG_2629](https://user-images.githubusercontent.com/75286616/139519756-712d5a1c-c
 ### 注力したこと
 "ひらめき"を促すために重視したUIの統一
 ビデオ会議を取り入れたこと。
-会議の投票結果をPNGとして保存可能にした。
+会議の投票結果をグラフ化し、PNGとして保存可能にした。
 
 
 ## 開発技術
