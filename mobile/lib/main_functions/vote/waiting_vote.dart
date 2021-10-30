@@ -21,10 +21,6 @@ class WaitingVoteState extends State<WaitingVote> {
     return ChangeNotifierProvider<VoteModel>(
         create: (_) => VoteModel(),
         child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              actions: <Widget>[],
-            ),
             drawer: Drawer(
               child: ListView(
                 children: <Widget>[
@@ -44,7 +40,7 @@ class WaitingVoteState extends State<WaitingVote> {
               return Center(
                   child: Column(children: [
                 Container(
-                  margin: EdgeInsets.only(top: 20, right: 290, bottom: 10),
+                  margin: EdgeInsets.only(top: 80, right: 290),
                   child: Text("投票者一覧",
                       style: TextStyle(
                         color: Colors.black,
@@ -69,7 +65,6 @@ class WaitingVoteState extends State<WaitingVote> {
                             snapshot.data.docs.map((DocumentSnapshot document) {
                           //リプライ部分
                           return Container(
-                              margin: EdgeInsets.only(top: 15),
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
@@ -80,6 +75,7 @@ class WaitingVoteState extends State<WaitingVote> {
                                 ],
                               ),
                               child: Card(
+                                 color: Colors.green[400],
                                   clipBehavior: Clip.antiAlias,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25)),
@@ -124,7 +120,7 @@ class WaitingVoteState extends State<WaitingVote> {
                                 Radius.circular(20),
                               ),
                             ),
-                            primary: Colors.pink[600],
+                            primary: Colors.green[800],
                             onPrimary: Colors.white70,
                             elevation: 5,
                           ),
