@@ -476,10 +476,10 @@ class ResultState extends State<Result> {
                           ListTile(
                             title: Text(
                                 document.data()['rank'] +
-                                    "　" +
+                                    " " +
                                     document.data()['opinion'],
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 20)),
+                                    color: Colors.white, fontSize: 18)),
                           ),
                         ]),
                       ));

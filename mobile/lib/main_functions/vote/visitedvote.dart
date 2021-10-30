@@ -80,6 +80,7 @@ class VisitedVoteState extends State<VisitedVote> {
                                 ],
                               ),
                               child: Card(
+                                  color: Colors.green[400],
                                   clipBehavior: Clip.antiAlias,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25)),
@@ -124,7 +125,7 @@ class VisitedVoteState extends State<VisitedVote> {
                                 Radius.circular(20),
                               ),
                             ),
-                            primary: Colors.pink[600],
+                            primary: Colors.green[300],
                             onPrimary: Colors.white70,
                             elevation: 5,
                           ),

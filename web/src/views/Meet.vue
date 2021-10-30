@@ -3,7 +3,7 @@
     <Header />
     <v-main>
       <v-col v-for="(data, index) in agenda" :key="index">
-        <v-card class="mx-auto agenda" color="#258c6d" dark max-width="800">
+        <v-card class="mx-auto agenda" color="#258c6d" dark max-width="800" shaped>
           <v-card-title>
             <v-dialog v-model="dialog" persistent max-width="600px">
               <template v-slot:activator="{ on, attrs }">
@@ -55,7 +55,7 @@
       <v-container>
         <v-row>
           <v-col v-for="(data, index) in opinions" :key="index" cols="4">
-            <v-card class="mx-auto" color="green" dark max-width="300">
+            <v-card class="mx-auto" color="green" dark max-width="300" shaped>
               <v-card-title>
                 <span class="opacity">a</span>
               </v-card-title>
