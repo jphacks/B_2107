@@ -91,7 +91,9 @@ class _HomeState extends State<Home> {
                           width: 125,
                           height: 125,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushNamed("/create");
+                            },
                             child: Text(
                               "ルームを作成\n     create",
                               style: TextStyle(
@@ -114,7 +116,9 @@ class _HomeState extends State<Home> {
                           width: 125,
                           height: 125,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushNamed("/join");
+                            },
                             child: Text(
                               "ルームに参加\n        join",
                               style: TextStyle(

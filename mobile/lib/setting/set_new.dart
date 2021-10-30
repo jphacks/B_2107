@@ -21,14 +21,6 @@ class SetProfileState extends State<SetProfile> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     final uid = user.uid.toString();
-
-    // Future getImageFromGallery() async {
-    //   final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    //   setState(() {
-    //     _image = File(pickedFile.path);
-    //   });
-    // }
     File file;
     final imagePicker = ImagePicker();
     void showBottomSheet() async {
@@ -63,7 +55,7 @@ class SetProfileState extends State<SetProfile> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.green[400],
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -78,7 +70,7 @@ class SetProfileState extends State<SetProfile> {
                 Navigator.pop(context);
               },
               style: TextButton.styleFrom(
-                primary: Colors.black87,
+                primary: Colors.white,
               ),
               child: Text(
                 '保存',
@@ -148,7 +140,7 @@ class SetProfileState extends State<SetProfile> {
                 ),
                 fillColor: Colors.white,
                 filled: true,
-                hintText: 'name',
+                hintText: '名前を変更してください',
                 contentPadding: EdgeInsets.all(16.0),
               ),
             ),
@@ -162,6 +154,25 @@ class SetProfileState extends State<SetProfile> {
               ],
             ),
           ),
+                  Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            //head画像
+            Container(
+              margin: const EdgeInsets.only(top: 70),
+              width: 100,
+              height: 100,
+              child: Image.asset("lib/images/Logo_head.png"),
+            ),
+            //name画像
+            Container(
+              margin: const EdgeInsets.only(top: 70),
+              width: 200,
+              height: 150,
+              child: Image.asset("lib/images/Logo_name.png"),
+            ),
+          ],
+        ),
         ]))));
   }
 }
