@@ -9,7 +9,7 @@
         </v-btn>
       </div>
       <div class="item">
-        <img class="image_2" src="@/assets/img\img_2.png" />
+        <img class="image_2" src="@/assets/img/img_2.png" />
         <v-btn x-large outlined color="#00AA6E" @click="meet">
           既存の会議を使用する
         </v-btn>
