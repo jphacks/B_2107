@@ -24,13 +24,14 @@ class _HomeState extends State<Home> {
         ..scale(isDrawerOpen ? 0.90 : 1.00)
         ..rotateZ(isDrawerOpen ? pi / 20 : 0),
       decoration: BoxDecoration(
-        color: Colors.lightGreen,
-        borderRadius: isDrawerOpen ? BorderRadius.circular(40) : BorderRadius.circular(0),
+        color: Colors.white,
+        borderRadius:
+            isDrawerOpen ? BorderRadius.circular(40) : BorderRadius.circular(0),
       ),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.lightGreen,
-          body: SingleChildScrollView(
+          backgroundColor: Colors.white,
+          body: Container(
             child: Column(
               children: [
                 Container(
@@ -41,6 +42,7 @@ class _HomeState extends State<Home> {
                       GestureDetector(
                         child: Icon(
                           Icons.menu,
+                          color: Colors.green,
                           size: 40,
                         ),
                         onTap: () {
@@ -61,11 +63,88 @@ class _HomeState extends State<Home> {
                       ),
                       Text(
                         'HOME',
-                        style: TextStyle(fontSize: 20, color: Colors.black, decoration: TextDecoration.none),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.green,
+                            decoration: TextDecoration.none),
                       ),
-                      Container(),
                     ],
                   ),
+                ),
+                Container(
+                  margin:
+                      EdgeInsets.only(top: 60, bottom: 10, left: 30, right: 30),
+                  child: Image(
+                      image: AssetImage('lib/images/Logo_head.png'),
+                      color: Color.fromRGBO(255, 255, 255, 0.5),
+                      colorBlendMode: BlendMode.modulate),
+                  width: 100,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: 90, bottom: 0, left: 0, right: 10),
+                          width: 125,
+                          height: 125,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed("/create");
+                            },
+                            child: Text(
+                              "ルームを作成\n     create",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.orange[700],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: 90, bottom: 0, left: 10, right: 10),
+                          width: 125,
+                          height: 125,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed("/join");
+                            },
+                            child: Text(
+                              "ルームに参加\n        join",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.green[700],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                ),
+                Container(
+                  margin:
+                      EdgeInsets.only(top: 70, bottom: 0, left: 30, right: 30),
+                  child: Image(
+                      image: AssetImage('lib/images/Logo_name_2.png'),
+                      color: Color.fromRGBO(255, 255, 255, 0.5),
+                      colorBlendMode: BlendMode.modulate),
+                  width: 300,
                 ),
               ],
             ),
