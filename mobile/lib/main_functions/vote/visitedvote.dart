@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:jphacks/login/model/vote_model.dart';
 import 'package:jphacks/main_functions/result/result.dart';
 import 'package:provider/provider.dart';
-import "dart:math";
 
 class VisitedVote extends StatefulWidget {
   @override
@@ -19,10 +18,13 @@ class VisitedVoteState extends State<VisitedVote> {
     final _firestore = FirebaseFirestore.instance;
     final User user = FirebaseAuth.instance.currentUser;
     final String uid = user.uid.toString();
-    final _random = Random();
     return ChangeNotifierProvider<VoteModel>(
         create: (_) => VoteModel(),
         child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              actions: <Widget>[],
+            ),
             drawer: Drawer(
               child: ListView(
                 children: <Widget>[
@@ -42,9 +44,8 @@ class VisitedVoteState extends State<VisitedVote> {
               return Center(
                   child: Column(children: [
                 Container(
-                  margin: EdgeInsets.only(top: 70),
+                  margin: EdgeInsets.only(top: 20, right: 290, bottom: 10),
                   child: Text("投票者一覧",
-                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
@@ -52,7 +53,7 @@ class VisitedVoteState extends State<VisitedVote> {
                 ),
                 Flexible(
                   child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
+                     stream: FirebaseFirestore.instance
                         .collection("opinions")
                         .where("mtg_id", isEqualTo: widget.docID)
                         .where('vote_user', isGreaterThanOrEqualTo: 1)
@@ -79,10 +80,8 @@ class VisitedVoteState extends State<VisitedVote> {
                                 ],
                               ),
                               child: Card(
+                                  color: Colors.green[400],
                                   clipBehavior: Clip.antiAlias,
-                                  color: Colors.primaries[_random
-                                          .nextInt(Colors.primaries.length)]
-                                      [_random.nextInt(9) * 100],
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25)),
                                   child: Column(
@@ -121,14 +120,14 @@ class VisitedVoteState extends State<VisitedVote> {
                       child: ElevatedButton(
                           child: const Text('次へ'),
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
-                            onPrimary: Colors.white,
-                            elevation: 50,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(20),
                               ),
                             ),
+                            primary: Colors.green[300],
+                            onPrimary: Colors.white70,
+                            elevation: 5,
                           ),
                           onPressed: () async {
                             final userRef = FirebaseFirestore.instance
@@ -156,8 +155,7 @@ class VisitedVoteState extends State<VisitedVote> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => Result(
-                                              docIDs, total, widget.docID),
+                                          builder: (context) => Result(docIDs,total,widget.docID),
                                         ));
                                   } else {
                                     showDialog(

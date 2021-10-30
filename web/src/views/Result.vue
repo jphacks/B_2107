@@ -1,7 +1,8 @@
 <template>
 <div>
+      <Header />
 <div id="capture">
-  
+ 
  <div style="display: flex;">
   <div class="fix">
   <template v-for="item in dataSetsKey">
@@ -64,11 +65,12 @@
 import BarChart from "@/components/BarChart.vue";
 import firebase from "@/firebase/firebase.js";
 import html2canvas from 'html2canvas';
-
+import Header from "@/components/layout/Header.vue";
 export default {
   name: "SandBox",
   components: {
     BarChart,
+    Header
   },
  
   data() {
@@ -96,7 +98,6 @@ export default {
       }
     });
   });
-
      this.fillData();
      this.filterItem = this.datacollection.datasets.map((_s, i) => i);
   },
@@ -128,7 +129,6 @@ export default {
         .filter((s) => s >= 0);
     },
     fillData() {
-
         this.datacollection = {
         labels: [`1位  ${this.votes[0]}票`, `2位  ${this.votes[1]}票`,`3位  ${this.votes[2]}票`, `4位  ${this.votes[3]}票`,`5位  ${this.votes[4]}票`],
         datasets: [
@@ -196,7 +196,6 @@ export default {
       html2canvas(document.querySelector('#capture'),{
         }).
         then((canvas) => {
-
         const link = document.createElement('a')
         link.href = canvas.toDataURL()
         link.download = `vivistudio_result.png`
@@ -207,7 +206,6 @@ export default {
     this.$router.push({name:"Hone"}).catch(() => {});
     window.location.reload();
  }
-
   }
 }
 </script>
@@ -222,9 +220,10 @@ margin-top:10px
 margin-left: 10px;
 width: 700px;
 height: 400px;
-margin-top:10px
+margin-top:60px
 }
 .table{
+margin-top:60px;
 margin-left: 10px;
 margin-right: 10px;
 margin-bottom:80px;
@@ -234,5 +233,4 @@ height: 400px;
 .picbtn{
   margin-top:100px;
 }
-
 </style>

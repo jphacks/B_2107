@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:jphacks/login/model/vote_model.dart';
 import 'package:jphacks/main_functions/result/result.dart';
 import 'package:provider/provider.dart';
-import 'dart:math';
 
 class WaitingVote extends StatefulWidget {
   @override
@@ -19,7 +18,6 @@ class WaitingVoteState extends State<WaitingVote> {
     final _firestore = FirebaseFirestore.instance;
     final User user = FirebaseAuth.instance.currentUser;
     final String uid = user.uid.toString();
-    final _random = Random();
     return ChangeNotifierProvider<VoteModel>(
         create: (_) => VoteModel(),
         child: Scaffold(
@@ -42,9 +40,8 @@ class WaitingVoteState extends State<WaitingVote> {
               return Center(
                   child: Column(children: [
                 Container(
-                  margin: EdgeInsets.only(top: 70),
+                  margin: EdgeInsets.only(top: 80, right: 290),
                   child: Text("投票者一覧",
-                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
@@ -68,7 +65,6 @@ class WaitingVoteState extends State<WaitingVote> {
                             snapshot.data.docs.map((DocumentSnapshot document) {
                           //リプライ部分
                           return Container(
-                              margin: EdgeInsets.only(top: 15),
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
@@ -79,10 +75,8 @@ class WaitingVoteState extends State<WaitingVote> {
                                 ],
                               ),
                               child: Card(
+                                 color: Colors.green[400],
                                   clipBehavior: Clip.antiAlias,
-                                  color: Colors.primaries[_random
-                                          .nextInt(Colors.primaries.length)]
-                                      [_random.nextInt(9) * 100],
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25)),
                                   child: Column(
@@ -116,19 +110,19 @@ class WaitingVoteState extends State<WaitingVote> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 15, left: 20, right: 20),
+                      margin: EdgeInsets.only(top: 20, left: 20, right: 20),
                       width: double.infinity,
                       child: ElevatedButton(
                           child: const Text('投票を締め切る'),
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
-                            onPrimary: Colors.white,
-                            elevation: 50,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(20),
                               ),
                             ),
+                            primary: Colors.green[800],
+                            onPrimary: Colors.white70,
+                            elevation: 5,
                           ),
                           onPressed: () async {
                             final userRef = FirebaseFirestore.instance
@@ -148,7 +142,7 @@ class WaitingVoteState extends State<WaitingVote> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          Result(docIDs, total, widget.docID),
+                                          Result(docIDs,total,widget.docID),
                                     ));
                                 model.changes = widget.docID;
                                 model.change();
@@ -162,3 +156,4 @@ class WaitingVoteState extends State<WaitingVote> {
             })));
   }
 }
+
