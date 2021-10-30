@@ -1,5 +1,6 @@
 <template>
   <div id="Video" class="container wrapper">
+    <Header />
     <div class="room">
       <div class="screen">
         <div>
@@ -9,10 +10,12 @@
       </div>
     </div>
     <div class="controller">
-      <v-btn @click="join" elevation="2" raised large>参加</v-btn>
-      <v-btn @click="leave" elevation="2" large raised>退出</v-btn>
-      <v-btn @click="shareScreen" elevation="2" large raised>画面共有</v-btn>
-      <v-btn @click="tomeet" elevation="2" large raised
+      <v-btn @click="join" x-large outlined color="#00AA6E">参加</v-btn>
+      <v-btn @click="leave" x-large outlined color="#00AA6E">退出</v-btn>
+      <v-btn @click="shareScreen" x-large outlined color="#00AA6E"
+        >画面共有</v-btn
+      >
+      <v-btn @click="tomeet" x-large outlined color="#00AA6E"
         >議題と意見を表示する</v-btn
       >
       <div class="timeMessage">
@@ -23,8 +26,12 @@
 </template>
 <script src="//cdn.webrtc.ecl.ntt.com/skyway-4.4.2.js"></script>
 <script>
+import Header from "../components/layout/Header.vue";
 import Peer from "skyway-js";
 export default {
+  components: {
+    Header,
+  },
   name: "Video",
   data() {
     return {
@@ -56,7 +63,7 @@ export default {
 
     // Peer作成
     this.peer = new Peer({
-      key: VUE_APP_SKYWAY_KEY,
+      key: process.env.VUE_APP_SKYWAY_KEY,
       debug: 3,
     });
   },
