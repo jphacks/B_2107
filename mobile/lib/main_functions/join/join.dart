@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jphacks/main_functions/room/visiter/visited.dart';
-
+import 'package:jphacks/animation/fade-animation.dart';
 
 class Join extends StatefulWidget {
   @override
@@ -66,136 +66,167 @@ class JoinState extends State<Join> {
     }
 
     return Scaffold(
-      body: Center(
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-        //ルーム作成ボタン
-        Container(
-          margin: EdgeInsets.only(top: 450, bottom: 30, left: 30, right: 30),
-          child: TextFormField(
-            onChanged: (String value) {
-              room_ids.text = value;
-            },
-            decoration: new InputDecoration(
-              //Focusしていないとき
-              enabledBorder: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-              //Focusしているとき
-              focusedBorder: OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: BorderSide(
-                  color: Colors.white,
-                  width: 2.0,
-                ),
-              ),
-              fillColor: Colors.white,
-              filled: true,
-              hintText: 'Room_id',
-              contentPadding: EdgeInsets.all(16.0),
+        body: Container(
+            child: Column(children: [
+      Stack(children: [
+        FadeAnimation(
+          1.5,
+          Container(
+            margin: EdgeInsets.only(top: 150, left: 80),
+            child: Image(
+              image: AssetImage("lib/images/Logo_name.png"),
             ),
-          ),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black38,
-                blurRadius: 25,
-                offset: const Offset(0, 3),
-              ),
-            ],
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 20, bottom: 30, left: 30, right: 30),
-          child: TextFormField(
-            onChanged: (String value) {
-              room_password.text = value;
-            },
-            decoration: new InputDecoration(
-              //Focusしていないとき
-              enabledBorder: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-              //Focusしているとき
-              focusedBorder: OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(25.0),
-                borderSide: BorderSide(
-                  color: Colors.white,
-                  width: 2.0,
-                ),
-              ),
-              fillColor: Colors.white,
-              filled: true,
-              hintText: 'password',
-              contentPadding: EdgeInsets.all(16.0),
-            ),
-          ),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black38,
-                blurRadius: 25,
-                offset: const Offset(0, 3),
-              ),
-            ],
+          margin: EdgeInsets.only(top: 250, left: 80),
+          child: Image(
+            image: AssetImage("lib/images/Logo_head.png"),
+            color: Color.fromRGBO(255, 255, 255, 0.3),
+            colorBlendMode: BlendMode.modulate,
           ),
         ),
+        //ルームid入力フォーム
+        FadeAnimation(
+          2.30,
+          Container(
+            margin: EdgeInsets.only(top: 300, bottom: 30, left: 30, right: 30),
+            child: TextFormField(
+              onChanged: (String value) {
+                room_ids.text = value;
+              },
+              decoration: new InputDecoration(
+                //Focusしていないとき
+                enabledBorder: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                //Focusしているとき
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                    width: 2.0,
+                  ),
+                ),
+                fillColor: Colors.white,
+                filled: true,
+                hintText: 'Room_id',
+                contentPadding: EdgeInsets.all(16.0),
+              ),
+            ),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black38,
+                  blurRadius: 25,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+          ),
+        ),
+        //パスワード入力フォーム
+        FadeAnimation(
+          2.50,
+          Container(
+            margin: EdgeInsets.only(top: 400, bottom: 30, left: 30, right: 30),
+            child: TextFormField(
+              onChanged: (String value) {
+                room_password.text = value;
+              },
+              decoration: new InputDecoration(
+                //Focusしていないとき
+                enabledBorder: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                //Focusしているとき
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                    width: 2.0,
+                  ),
+                ),
+                fillColor: Colors.white,
+                filled: true,
+                hintText: 'password',
+                contentPadding: EdgeInsets.all(16.0),
+              ),
+            ),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black38,
+                  blurRadius: 25,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+          ),
+        ),
+        FadeAnimation(
+          2.80,
+          Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 600),
+            child: FloatingActionButton.extended(
+                backgroundColor: Colors.green,
+                tooltip: "ルームに作成する",
+                icon: Icon(Icons.add),
+                label: Text("ルームに参加する"),
+                onPressed: () async {
+                  getName();
+                  getSetting();
+                  final userRefs = FirebaseFirestore.instance
+                      .collection('mtg')
+                      .where('room_id', isEqualTo: int.parse(room_ids.text));
+                  userRefs.get().then(
+                    (snapshot) {
+                      final List<String> ids = [];
+                      snapshot.docs.forEach((doc) {
+                        ids.add(doc.data()["mtg_docID"]);
+                      });
+                      _firestore.collection("mtg").doc(ids[0]).update(
+                        {
+                          "users": FieldValue.arrayUnion([uid]),
+                        },
+                      );
 
-        FloatingActionButton.extended(
-            tooltip: "ルームを作成する",
-            icon: Icon(Icons.add),
-            label: Text("ルームを参加する"),
-            onPressed: () async {
-              getName();
-              getSetting();
-              final userRefs = FirebaseFirestore.instance
-                  .collection('mtg')
-                  .where('room_id', isEqualTo: int.parse(room_ids.text));
-              userRefs.get().then(
-                (snapshot) {
-                  final List<String> ids = [];
-                  snapshot.docs.forEach((doc) {
-                    ids.add(doc.data()["mtg_docID"]);
-                  });
-                  _firestore.collection("mtg").doc(ids[0]).update(
-                {
-                  "users": FieldValue.arrayUnion([uid]),
-                },
-              );
-                  
-                    if (check[0] == true) {
-                      print(check[0]);
-                      Navigator.push(
+                      if (check[0] == true) {
+                        print(check[0]);
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Visited(
-                                ids[0],
-                                default_name,
-                                default_image,
-                                int.parse(room_ids.text),
-                                int.parse(room_password.text),
-                                check[1])),
-                          );
-                    } 
-                    else{
-                      print(check[0]);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Visited(
-                                ids[0],
-                                names[0],
-                                images[0],
-                                int.parse(room_ids.text),
-                                int.parse(room_password.text),
-                                check[1]),
-                          ));
-                    }
-                },
-              );
-            }),
-      ])),
-    );
+                              builder: (context) => Visited(
+                                  ids[0],
+                                  default_name,
+                                  default_image,
+                                  int.parse(room_ids.text),
+                                  int.parse(room_password.text),
+                                  check[1])),
+                        );
+                      } else {
+                        print(check[0]);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Visited(
+                                  ids[0],
+                                  names[0],
+                                  images[0],
+                                  int.parse(room_ids.text),
+                                  int.parse(room_password.text),
+                                  check[1]),
+                            ));
+                      }
+                    },
+                  );
+                }),
+          ),
+        ),
+      ]),
+    ])));
   }
 }

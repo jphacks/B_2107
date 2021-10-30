@@ -78,15 +78,6 @@ class _HomeState extends State<Home> {
                       image: AssetImage('lib/images/Logo_head.png'),
                       color: Color.fromRGBO(255, 255, 255, 0.5),
                       colorBlendMode: BlendMode.modulate),
-                  width: 80,
-                ),
-                Container(
-                  margin:
-                      EdgeInsets.only(top: 0, bottom: 0, left: 30, right: 30),
-                  child: Image(
-                      image: AssetImage('lib/images/Logo_name_2.png'),
-                      color: Color.fromRGBO(255, 255, 255, 0.5),
-                      colorBlendMode: BlendMode.modulate),
                   width: 100,
                 ),
                 Container(
@@ -96,12 +87,21 @@ class _HomeState extends State<Home> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(
-                              top: 100, bottom: 0, left: 0, right: 10),
+                              top: 90, bottom: 0, left: 0, right: 10),
                           width: 125,
                           height: 125,
                           child: ElevatedButton(
-                            child: const Text('する'),
+                            onPressed: () {
+                              Navigator.of(context).pushNamed("/create");
+                            },
+                            child: Text(
+                              "ルームを作成\n     create",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                             style: ElevatedButton.styleFrom(
+                              primary: Colors.orange[700],
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(20),
@@ -112,12 +112,21 @@ class _HomeState extends State<Home> {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              top: 100, bottom: 0, left: 10, right: 10),
+                              top: 90, bottom: 0, left: 10, right: 10),
                           width: 125,
                           height: 125,
                           child: ElevatedButton(
-                            child: const Text('する'),
+                            onPressed: () {
+                              Navigator.of(context).pushNamed("/join");
+                            },
+                            child: Text(
+                              "ルームに参加\n        join",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                             style: ElevatedButton.styleFrom(
+                              primary: Colors.green[700],
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(20),
@@ -127,6 +136,15 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ]),
+                ),
+                Container(
+                  margin:
+                      EdgeInsets.only(top: 70, bottom: 0, left: 30, right: 30),
+                  child: Image(
+                      image: AssetImage('lib/images/Logo_name_2.png'),
+                      color: Color.fromRGBO(255, 255, 255, 0.5),
+                      colorBlendMode: BlendMode.modulate),
+                  width: 300,
                 ),
               ],
             ),
