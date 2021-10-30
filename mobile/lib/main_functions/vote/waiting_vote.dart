@@ -156,3 +156,4 @@ class WaitingVoteState extends State<WaitingVote> {
             })));
   }
 }
+
