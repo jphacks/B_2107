@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:jphacks/main_functions/vote/vote.dart';
+import 'package:simple_animations/timeline_tween/prop.dart';
 
 class Visited extends StatefulWidget {
   @override
@@ -29,24 +30,44 @@ class VisitedState extends State<Visited> {
     final User user = FirebaseAuth.instance.currentUser;
     final String uid = user.uid.toString();
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      backgroundColor: Colors.green[50].withOpacity(0.9),
       context: context,
       builder: (BuildContext context) {
         return Container(
           height: MediaQuery.of(context).size.height / 2,
           child: Column(
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  CupertinoButton(
-                    child: Text("戻る"),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  CupertinoButton(
-                    child: Text("決定"),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      setState(() async {
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: CupertinoButton(
+                        color: Colors.green,
+                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Text(
+                          "戻る",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ),
+                    CupertinoButton(
+                      color: Colors.green,
+                      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Text(
+                        "コメントを追加",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        Navigator.pop(context);
                         var docRef = await _firestore.collection("opinions").add(
                           {
                             "opinion": _opinion,
@@ -67,10 +88,10 @@ class VisitedState extends State<Visited> {
                         _firestore.collection("opinions").doc(documentId).update(
                           {"opinion_docID": documentId},
                         );
-                      });
-                    },
-                  ),
-                ],
+                      },
+                    ),
+                  ],
+                ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
@@ -94,16 +115,16 @@ class VisitedState extends State<Visited> {
                         width: 2.0,
                       ),
                     ),
-                    fillColor: Colors.white,
+                    fillColor: Colors.grey[100],
                     filled: true,
-                    hintText: '意見',
+                    hintText: '意見を記入',
                     contentPadding: EdgeInsets.all(16.0),
                   ),
                 ),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black38,
+                      color: Colors.green[900],
                       blurRadius: 25,
                       offset: const Offset(0, 3),
                     ),
@@ -128,6 +149,7 @@ class VisitedState extends State<Visited> {
           actions: <Widget>[],
           elevation: 0.0,
         ),
+        backgroundColor: Colors.green[50],
         body: Center(
             child: Column(children: [
           //更新されたらすぐ反映する処理
@@ -152,7 +174,7 @@ class VisitedState extends State<Visited> {
                       ),
                       //議題を表示する画面
                       child: Card(
-                        color: Colors.green,
+                        color: Colors.green[300],
                         clipBehavior: Clip.antiAlias,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
@@ -162,22 +184,28 @@ class VisitedState extends State<Visited> {
                             //議題追加ボタン
 
                             Container(
-                              margin: EdgeInsets.only(top: 8, right: 10, left: 150),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 2, right: 6, left: 6, bottom: 1),
-                                child: Text(
-                                  "参加人数　" + document.data()['users'].length.toString(),
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 19,
+                              margin: EdgeInsets.only(top: 10, right: 10),
+                              width: double.infinity,
+                              child: ListTile(
+                                title: Container(
+                                  margin: EdgeInsets.only(left: 80),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                    child: Text(
+                                      "参加人数　" + document.data()['users'].length.toString(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 19,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.green[200], width: 3.0),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.green[700],
                                   ),
                                 ),
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.green[50], width: 3.0),
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.green[700],
                               ),
                             ),
                             //議題
@@ -212,15 +240,24 @@ class VisitedState extends State<Visited> {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
+                                              backgroundColor: Colors.green[50],
                                               title: Text('確認'),
                                               content: Text('投票を始めますか？'),
                                               actions: <Widget>[
-                                                FlatButton(
+                                                ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      primary: Colors.green,
+                                                      onPrimary: Colors.white,
+                                                    ),
                                                     child: Text("投票を始める"),
                                                     onPressed: () {
                                                       Navigator.push(context, MaterialPageRoute(builder: (context) => Vote(widget.docID, widget.name, widget.image, "visiter")));
                                                     }),
-                                                FlatButton(
+                                                ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      primary: Colors.green,
+                                                      onPrimary: Colors.white,
+                                                    ),
                                                     child: Text("いいえ"),
                                                     onPressed: () {
                                                       Navigator.pop(context);
@@ -264,6 +301,7 @@ class VisitedState extends State<Visited> {
                         ),
                         child: Card(
                             clipBehavior: Clip.antiAlias,
+                            color: Colors.green[400],
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                             child: Column(
                               children: [
@@ -271,15 +309,15 @@ class VisitedState extends State<Visited> {
                                   margin: EdgeInsets.only(top: 10),
                                   child: ListTile(
                                     leading: CircleAvatar(
-                                      radius: 26.0,
+                                      radius: 22.0,
                                       backgroundImage: NetworkImage(document.data()['user_image']),
-                                      backgroundColor: Colors.white,
+                                      backgroundColor: Colors.green[100],
                                     ),
                                     title: Text(document.data()['user_name'], style: TextStyle(color: Colors.black, fontSize: 17)),
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(top: 15, bottom: 20, left: 90, right: 15),
+                                  margin: EdgeInsets.only(top: 5, bottom: 5, left: 90, right: 15),
                                   width: double.infinity,
                                   child: Text(
                                     document.data()['opinion'],
@@ -292,7 +330,7 @@ class VisitedState extends State<Visited> {
                                     margin: EdgeInsets.only(left: 200),
                                     child: IconButton(
                                         icon: const Icon(Icons.favorite_border),
-                                        color: Colors.red,
+                                        color: Colors.redAccent,
                                         onPressed: () async {
                                           // データを更新
                                           var count = 1;

@@ -80,15 +80,24 @@ class VoteState extends State<Vote> {
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
+                                    backgroundColor: Colors.green[50],
                                     title: Text('確認'),
                                     content: Text('この意見に投票しますか'),
                                     actions: <Widget>[
-                                      FlatButton(
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.green,
+                                            onPrimary: Colors.white,
+                                          ),
                                           child: Text("いいえ"),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           }),
-                                      FlatButton(
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.green,
+                                            onPrimary: Colors.white,
+                                          ),
                                           child: Text("投票"),
                                           onPressed: () async {
                                             final voteid = await _firestore
