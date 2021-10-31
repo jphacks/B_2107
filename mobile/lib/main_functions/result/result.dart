@@ -6,6 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
+import '../../main.dart';
+
 class Result extends StatefulWidget {
   @override
   ResultState createState() => ResultState();
@@ -268,14 +270,18 @@ class ResultState extends State<Result> {
                                   );
                                 }
                               });
-                              Navigator.popUntil(context,
-                                  (Route<dynamic> route) => route.isFirst);
+                               Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                          (_) => false);
                             }),
                         FlatButton(
                             child: Text("保存する"),
                             onPressed: () {
-                              Navigator.popUntil(context,
-                                  (Route<dynamic> route) => route.isFirst);
+                             Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                          (_) => false);
                             }),
                       ],
                     );

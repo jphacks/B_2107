@@ -55,8 +55,12 @@ class VoteState extends State<Vote> {
           ),
           Flexible(
             child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection("opinions").where("mtg_id", isEqualTo: widget.docID).snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              stream: FirebaseFirestore.instance
+                  .collection("opinions")
+                  .where("mtg_id", isEqualTo: widget.docID)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
@@ -100,31 +104,63 @@ class VoteState extends State<Vote> {
                                           ),
                                           child: Text("投票"),
                                           onPressed: () async {
+                                            // if(document.data()["opinion_docID"])
                                             final voteid = await _firestore
                                                 .collection("vote")
-                                                .add({"uid": uid, "mtg_id": widget.docID, "user_name": widget.name, "user_image": widget.image, "opinion_docID": document.data()["opinion_docID"]});
+                                                .add({
+                                              "uid": uid,
+                                              "mtg_id": widget.docID,
+                                              "user_name": widget.name,
+                                              "user_image": widget.image,
+                                              "opinion_docID": document
+                                                  .data()["opinion_docID"]
+                                            });
                                             final documentID = voteid.id;
-                                            _firestore.collection("vote").doc(documentID).update(
+                                            _firestore
+                                                .collection("vote")
+                                                .doc(documentID)
+                                                .update(
                                               {"documentID": documentID},
                                             );
-                                            var count = 1 + document.data()["vote_user"];
-                                            _firestore.collection("opinions").doc(document.data()["opinion_docID"]).update(
+                                            var count = 1 +
+                                                document.data()["vote_user"];
+                                            _firestore
+                                                .collection("opinions")
+                                                .doc(document
+                                                    .data()["opinion_docID"])
+                                                .update(
                                               {
                                                 "vote": "true",
                                                 "vote_user": count,
                                               },
                                             );
 
-                                            final userRef = FirebaseFirestore.instance.collection('mtg').where('mtg_docID', isEqualTo: widget.docID);
+                                            final userRef = FirebaseFirestore
+                                                .instance
+                                                .collection('mtg')
+                                                .where('mtg_docID',
+                                                    isEqualTo: widget.docID);
                                             userRef.get().then((snapshot) {
                                               final List<String> uids = [];
                                               snapshot.docs.forEach((doc) {
                                                 uids.add(doc.data()["uid"]);
                                               });
                                               if (uid == uids[0]) {
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => WaitingVote(widget.docID)));
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            WaitingVote(
+                                                                widget.docID)),
+                                                    (_) => false);
                                               } else {
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => VisitedVote(widget.docID)));
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            VisitedVote(
+                                                                widget.docID)),
+                                                    (_) => false);
                                               }
                                             });
                                           })
@@ -136,7 +172,8 @@ class VoteState extends State<Vote> {
                             child: Card(
                                 clipBehavior: Clip.antiAlias,
                                 color: Colors.green[400],
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25)),
                                 child: Column(
                                   children: [
                                     Container(
@@ -144,18 +181,28 @@ class VoteState extends State<Vote> {
                                       child: ListTile(
                                         leading: CircleAvatar(
                                           radius: 22.0,
-                                          backgroundImage: NetworkImage(document.data()['user_image']),
+                                          backgroundImage: NetworkImage(
+                                              document.data()['user_image']),
                                           backgroundColor: Colors.green[100],
                                         ),
-                                        title: Text(document.data()['user_name'], style: TextStyle(color: Colors.black, fontSize: 17)),
+                                        title: Text(
+                                            document.data()['user_name'],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 17)),
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(top: 5, bottom: 13, left: 90, right: 15),
+                                      margin: EdgeInsets.only(
+                                          top: 5,
+                                          bottom: 13,
+                                          left: 90,
+                                          right: 15),
                                       width: double.infinity,
                                       child: Text(
                                         document.data()['opinion'],
-                                        style: TextStyle(color: Colors.black, fontSize: 19),
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 19),
                                         textAlign: TextAlign.left,
                                       ),
                                     ),

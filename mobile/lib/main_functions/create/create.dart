@@ -322,31 +322,31 @@ class CreateRoomState extends State<CreateRoom> {
                         image.add(doc.data()["user_image"]);
                       });
                       if (_checkedAnonymous == true) {
-                        Navigator.push(
+                        Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Room(
-                                  documentId,
-                                  "匿名",
-                                  default_image,
-                                  room_id,
-                                  numbers,
-                                  _checkedInfinity,
-                                  times[0]),
-                            ));
+                                builder: (context) => Room(
+                                    documentId,
+                                    "匿名",
+                                    default_image,
+                                    room_id,
+                                    numbers,
+                                    _checkedInfinity,
+                                    times[0])),
+                            (_) => false);
                       } else {
-                        Navigator.push(
+                        Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Room(
-                                  documentId,
-                                  name[0],
-                                  image[0],
-                                  room_id,
-                                  numbers,
-                                  _checkedInfinity,
-                                  times[0]),
-                            ));
+                                builder: (context) => Room(
+                                    documentId,
+                                    name[0],
+                                    image[0],
+                                    room_id,
+                                    numbers,
+                                    _checkedInfinity,
+                                    times[0])),
+                            (_) => false);
                       }
                     });
                   },
