@@ -6,6 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
+import '../../main.dart';
+
 class Result extends StatefulWidget {
   @override
   ResultState createState() => ResultState();
@@ -268,14 +270,18 @@ class ResultState extends State<Result> {
                                   );
                                 }
                               });
-                              Navigator.popUntil(context,
-                                  (Route<dynamic> route) => route.isFirst);
+                               Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                          (_) => false);
                             }),
                         FlatButton(
                             child: Text("保存する"),
                             onPressed: () {
-                              Navigator.popUntil(context,
-                                  (Route<dynamic> route) => route.isFirst);
+                             Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                          (_) => false);
                             }),
                       ],
                     );
@@ -292,124 +298,6 @@ class ResultState extends State<Result> {
           ],
           elevation: 0.0,
         ),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   actions: <Widget>[
-          
-      //     TextButton(
-      //         onPressed: () {
-      //           showDialog(
-      //             context: context,
-      //             barrierDismissible: false,
-      //             builder: (_) {
-      //               return AlertDialog(
-      //                 title: Text("会議を保存しますか"),
-      //                 content: Text("会議は３件まで保存可能です"),
-      //                 actions: [
-      //                   FlatButton(
-      //                       child: Text("保存しない"),
-      //                       onPressed: () {
-      //                         final userRef = FirebaseFirestore.instance
-      //                             .collection('opinions')
-      //                             .where('mtg_id', isEqualTo: widget.mtg_id);
-      //                         userRef.get().then((snapshot) {
-      //                           final List<String> docIDs = [];
-      //                           snapshot.docs.forEach((doc) {
-      //                             docIDs.add(doc.data()["opinion_docID"]);
-      //                           });
-      //                           for (var i = 0; i < docIDs.length; i++) {
-      //                             _firestore
-      //                                 .collection("opinions")
-      //                                 .doc(docIDs[i])
-      //                                 .delete();
-      //                           }
-      //                         });
-      //                         final use = FirebaseFirestore.instance
-      //                             .collection('mtg')
-      //                             .where('mtg_docID', isEqualTo: widget.mtg_id);
-      //                         use.get().then((snapshot) {
-      //                           final List<String> mtgIDs = [];
-      //                           snapshot.docs.forEach((doc) {
-      //                             mtgIDs.add(doc.data()["mtg_docID"]);
-      //                           });
-      //                           for (var k = 0; k < mtgIDs.length; k++) {
-      //                             _firestore
-      //                                 .collection("mtg")
-      //                                 .doc(mtgIDs[k])
-      //                                 .delete();
-      //                           }
-      //                         });
-      //                         final votes = FirebaseFirestore.instance
-      //                             .collection('vote')
-      //                             .where('mtg_id', isEqualTo: widget.mtg_id);
-      //                         votes.get().then((snapshot) {
-      //                           final List<String> voteIDs = [];
-      //                           snapshot.docs.forEach((doc) {
-      //                             voteIDs.add(doc.data()["documentID"]);
-      //                           });
-      //                           for (var w = 0; w < voteIDs.length; w++) {
-      //                             _firestore
-      //                                 .collection("vote")
-      //                                 .doc(voteIDs[w])
-      //                                 .delete();
-      //                           }
-      //                         });
-      //                         final user = FirebaseFirestore.instance
-      //                             .collection('user')
-      //                             .where('uid', isEqualTo: uid);
-      //                         user.get().then((snapshot) {
-      //                           final List<int> joincount = [];
-      //                           snapshot.docs.forEach((doc) {
-      //                             joincount.add(doc.data()["join"]);
-      //                             joins.add(doc.data()["documentID"]);
-      //                             joinbest.add(doc.data()["best"]);
-      //                           });
-      //                           _firestore
-      //                               .collection("user")
-      //                               .doc(joins[0])
-      //                               .update(
-      //                             {
-      //                               "join": 1 + joincount[0],
-      //                             },
-      //                           );
-      //                         });
-      //                         final best = FirebaseFirestore.instance
-      //                             .collection('opinions')
-      //                             .where('opinion_docID',
-      //                                 isEqualTo: widget.docIDs[0]);
-      //                         user.get().then((snapshot) {
-      //                           final List<String> uids = [];
-      //                           snapshot.docs.forEach((doc) {
-      //                             uids.add(doc.data()["uid"]);
-      //                           });
-      //                           if (uid == uids[0]) {
-      //                             _firestore
-      //                                 .collection("user")
-      //                                 .doc(joins[0])
-      //                                 .update(
-      //                               {
-      //                                 "best": 1 + joinbest[0],
-      //                               },
-      //                             );
-      //                           }
-      //                         });
-      //                         Navigator.popUntil(context,
-      //                             (Route<dynamic> route) => route.isFirst);
-      //                       }),
-      //                   FlatButton(
-      //                       child: Text("保存する"),
-      //                       onPressed: () {
-      //                         Navigator.popUntil(context,
-      //                             (Route<dynamic> route) => route.isFirst);
-      //                       }),
-      //                 ],
-      //               );
-      //             },
-      //           );
-      //         },
-      //         child: Text('終了する')),
-      //   ],
-      // ),
       body: Center(
           child: Column(children: [
         Padding(

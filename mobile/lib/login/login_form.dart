@@ -138,29 +138,33 @@ class _Login extends State<Login> {
                     elevation: 20.0,
                   ),
                   onPressed: () async {
-                    await FirebaseAuth.instance.signInAnonymously();
-                    final User user = await FirebaseAuth.instance.currentUser;
-                    final String uid = user.uid.toString();
-                    //ページ遷移
-                    final _firestore = FirebaseFirestore.instance;
-                    var docRef = await _firestore.collection("user").add(
-                      {
-                        "name": _login_name,
-                        "uid": uid,
-                        "user_image":
-                            "https://firebasestorage.googleapis.com/v0/b/summerhackathon2021-23986.appspot.com/o/user_icon%2Fdefault.png?alt=media&token=2e1a0e9f-41eb-41f8-8c2d-40467c5d6277",
-                        "join":0,
-                        "best":0,
-                      },
-                    );
-                    var documentId = docRef.id;
-                    _firestore.collection("user").doc(documentId).update(
-                      {"documentID": documentId},
-                    );
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyHomePage()),
-                    );
+                    int count = 0;
+                    if (count == 0) {
+                      count++;
+                      await FirebaseAuth.instance.signInAnonymously();
+                      final User user = await FirebaseAuth.instance.currentUser;
+                      final String uid = user.uid.toString();
+                      //ページ遷移
+                      final _firestore = FirebaseFirestore.instance;
+                      var docRef = await _firestore.collection("user").add(
+                        {
+                          "name": _login_name,
+                          "uid": uid,
+                          "user_image":
+                              "https://firebasestorage.googleapis.com/v0/b/summerhackathon2021-23986.appspot.com/o/user_icon%2Fdefault.png?alt=media&token=2e1a0e9f-41eb-41f8-8c2d-40467c5d6277",
+                          "join": 0,
+                          "best": 0,
+                        },
+                      );
+                      var documentId = docRef.id;
+                      _firestore.collection("user").doc(documentId).update(
+                        {"documentID": documentId},
+                      );
+                       Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                          (_) => false);
+                    }
                   },
                 ),
               ),
